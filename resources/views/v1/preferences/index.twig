@@ -195,7 +195,34 @@
                         <div class="tab-pane" id="accountant">
                             {# accountant settings here #}
                             <div class="row">
-                            
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="box box-primary">
+                                        <div style="padding:8px;">
+                                            <a href="" class="btn btn-success"><i class="fa fa-plus fa-fw"></i> {{ ('make_new_accountant')|_ }}</a>
+                                        </div>
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">{{ 'all_accountants'|_ }}</h3>
+                                        </div>
+                                        <div class="box-body table-responsive no-padding">
+                                            <table class="table table-condensed sortable">
+                                                <thead>
+                                                <tr>
+                                                    <th data-defaultsign="_19" class="hidden-xs" colspan="2">&nbsp;</th>
+                                                    <th data-defaultsign="az">{{ trans('list.email') }}</th>
+                                                    <th data-defaultsign="month" class="hidden-xs">{{ trans('list.registered_at') }}</th>
+                                                    <th data-defaultsign="month" class="hidden-xs">{{ trans('list.updated_at') }}</th>
+                                                    {# <th class="hidden-xs">{{ trans('list.is_admin') }}</th> #}
+                                                    {# <th class="hidden-xs">{{ trans('list.has_two_factor') }}</th> #}
+                                                    <th>{{ trans('list.is_blocked') }}</th>
+                                                    <th data-defaultsign="az" class="hidden-xs">{{ trans('list.blocked_code') }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
