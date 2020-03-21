@@ -28,11 +28,13 @@ class SpiderModifyUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table(
-            'transactions',
-            function (Blueprint $table) {
-                $table->dropColumn('isAccountant');
-            }
-        );
+        if (Schema::hasColumn('users', 'isAccountant')) {
+            Schema::table(
+                'users',
+                function (Blueprint $table) {
+                    $table->dropColumn('isAccountant');
+                }
+            );
+        }
     }
 }

@@ -82,6 +82,7 @@ return [
     'registered_at'           => 'Registered at',
     'is_blocked'              => 'Is blocked',
     'is_admin'                => 'Is admin',
+    'is_accountant'           => 'Is accountant',
     'has_two_factor'          => 'Has 2FA',
     'blocked_code'            => 'Block code',
     'source_account'          => 'Source account',

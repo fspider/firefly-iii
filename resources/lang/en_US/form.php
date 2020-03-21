@@ -190,6 +190,7 @@ return [
     'email'                 => 'Email address',
     'password'              => 'Password',
     'password_confirmation' => 'Password (again)',
+    'isAccountant'            => 'Is Accountant?',
     'blocked'               => 'Is blocked?',
     'blocked_code'          => 'Reason for block',
     'login_name'            => 'Login',

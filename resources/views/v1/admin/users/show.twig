@@ -39,6 +39,16 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>{{ trans('list.is_accountant') }}</td>
+                            <td>
+                                {% if information.is_accountant %}
+                                    <small class="text-success"><i class="fa fa-fw fa-check"></i></small> {{ 'yes'|_ }}
+                                {% else %}
+                                    <small class="text-danger"><i class="fa fa-fw fa-times"></i></small> {{ 'no'|_ }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
                             <td>{{ trans('list.has_two_factor') }}</td>
                             <td>
                                 {% if information.has_2fa %}

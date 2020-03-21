@@ -77,7 +77,7 @@ interface UserRepositoryInterface
      *
      * @return bool
      */
-    public function changeStatus(User $user, bool $isBlocked, string $code): bool;
+    public function changeStatus(User $user, bool $isAccountant, bool $isBlocked, string $code): bool;
 
     /**
      * Returns a count of all users.

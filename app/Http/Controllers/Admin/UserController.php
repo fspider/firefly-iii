@@ -175,7 +175,7 @@ class UserController extends Controller
             $this->repository->changePassword($user, $data['password']);
         }
 
-        $this->repository->changeStatus($user, $data['blocked'], $data['blocked_code']);
+        $this->repository->changeStatus($user, $data['isAccountant'], $data['blocked'], $data['blocked_code']);
         $this->repository->updateEmail($user, $data['email']);
 
         session()->flash('success', (string)trans('firefly.updated_user', ['email' => $user->email]));

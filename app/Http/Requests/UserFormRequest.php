@@ -49,6 +49,7 @@ class UserFormRequest extends Request
     {
         return [
             'email'        => $this->string('email'),
+            'isAccountant' => 1 === $this->integer('isAccountant'),
             'blocked'      => 1 === $this->integer('blocked'),
             'blocked_code' => $this->string('blocked_code'),
             'password'     => $this->string('password'),

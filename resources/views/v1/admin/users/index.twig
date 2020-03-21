@@ -19,6 +19,7 @@
                             <th data-defaultsign="month" class="hidden-xs">{{ trans('list.registered_at') }}</th>
                             <th data-defaultsign="month" class="hidden-xs">{{ trans('list.updated_at') }}</th>
                             <th class="hidden-xs">{{ trans('list.is_admin') }}</th>
+                            <th class="hidden-xs">{{ trans('list.is_accountant') }}</th>
                             <th class="hidden-xs">{{ trans('list.has_two_factor') }}</th>
                             <th>{{ trans('list.is_blocked') }}</th>
                             <th data-defaultsign="az" class="hidden-xs">{{ trans('list.blocked_code') }}</th>
@@ -46,6 +47,13 @@
                                 </td>
                                 <td class="hidden-xs" data-value="{% if user.isAdmin %}1{% else %}0{% endif %}">
                                     {% if user.isAdmin %}
+                                        <small class="text-success"><i class="fa fa-fw fa-check"></i></small>
+                                    {% else %}
+                                        <small class="text-danger"><i class="fa fa-fw fa-times"></i></small>
+                                    {% endif %}
+                                </td>
+                                <td class="hidden-xs" data-value="{% if user.isAccountant %}1{% else %}0{% endif %}">
+                                    {% if user.isAccountant %}
                                         <small class="text-success"><i class="fa fa-fw fa-check"></i></small>
                                     {% else %}
                                         <small class="text-danger"><i class="fa fa-fw fa-times"></i></small>
