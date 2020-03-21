@@ -93,7 +93,14 @@
 
     </li> #}
 
-    <li class="{{ activeRoutePartial('transactions') }} treeview" id="transaction-menu">
+    {# ADDED BY SPIDER #}
+    <li class="{{ activeRoutePartialObjectType('transactions','withdrawal') }}">
+        <a href="{{ route('transactions.index','withdrawal') }}">
+            <i class="fa fa-long-arrow-left fa-fw"></i> {{ 'expenses'|_ }}</a>
+    </li>
+
+    {# REMOVED BY SPIDER #}
+    {# <li class="{{ activeRoutePartial('transactions') }} treeview" id="transaction-menu">
         <a href="#">
             <i class="fa fa-repeat fa-fw"></i>
             <span>{{ 'transactions'|_ }}</span>
@@ -106,17 +113,16 @@
                 <a href="{{ route('transactions.index','withdrawal') }}">
                     <i class="fa fa-long-arrow-left fa-fw"></i> {{ 'expenses'|_ }}</a>
             </li>
-            {# REMOVED BY SPIDER #}
-            {# <li class="{{ activeRoutePartialObjectType('transactions','deposit') }}">
+            <li class="{{ activeRoutePartialObjectType('transactions','deposit') }}">
                 <a href="{{ route('transactions.index','deposit') }}"><i
                             class="fa fa-long-arrow-right fa-fw"></i> {{ 'income'|_ }}</a>
             </li>
             <li class="{{ activeRoutePartialObjectType('transactions','transfers') }}">
                 <a href="{{ route('transactions.index','transfers') }}">
                     <i class="fa fa-fw fa-exchange"></i> {{ 'transfers'|_ }}</a>
-            </li> #}
+            </li>
         </ul>
-    </li>
+    </li> #}
 
     {# REMOVED BY SPIDER MOENY - [money management]#}
     {# <li class="{{ activeRoutePartial('bills') }} {{ activeRoutePartial('recurring') }}  {{ activeRoutePartial('piggy-banks') }} {{ activeRoutePartial('rules') }} treeview">
