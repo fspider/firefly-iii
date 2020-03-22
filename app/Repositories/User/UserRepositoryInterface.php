@@ -44,7 +44,7 @@ interface UserRepositoryInterface
      *
      * @return Collection
      */
-    public function accountants(): Collection;
+    public function accountants(int $userid): Collection;
 
     /**
      * Gives a user a role.

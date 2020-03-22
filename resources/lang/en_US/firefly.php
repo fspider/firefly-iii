@@ -558,6 +558,7 @@ return [
     'preferences_layout'                        => 'Layout',
     'preferences_accountant'                    => 'Accountant',
     'make_new_accountant'                       => 'Create a new accountant',
+    'edit_accountant'                           => 'Edit Accountant :email',
     'pref_home_show_deposits'                   => 'Show deposits on the home screen',
     'pref_home_show_deposits_info'              => 'The home screen already shows your expense accounts. Should it also show your revenue accounts?',
     'pref_home_do_show_deposits'                => 'Yes, show them',

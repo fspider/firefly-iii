@@ -691,6 +691,13 @@ try {
             $breadcrumbs->push(trans('breadcrumbs.accountants'), route('accountants.index'));
         }
     );
+    Breadcrumbs::register(
+        'accountants.edit',
+        function (BreadcrumbsGenerator $breadcrumbs, User $user) {
+            $breadcrumbs->parent('accountants.index');
+            $breadcrumbs->push(trans('firefly.edit_accountant', ['email' => $user->email]), route('accountants.edit', [$user->id]));
+        }
+    );
 
     Breadcrumbs::register(
         'profile.code',

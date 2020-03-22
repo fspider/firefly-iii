@@ -57,9 +57,9 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @return Collection
      */
-    public function accountants(): Collection
+    public function accountants(int $userid): Collection
     {
-        return User::where('isAccountant', '!=', 0)->orderBy('id', 'DESC')->get(['users.*']);
+        return User::where('isAccountant', $userid)->orderBy('id', 'DESC')->get(['users.*']);
     }
 
     /**
@@ -257,6 +257,7 @@ class UserRepository implements UserRepositoryInterface
         // two factor:
         $return['has_2fa']             = $user->mfa_secret !== null;
         $return['is_admin']            = $this->hasRole($user, 'owner');
+        $return['is_accountant']       = 0 !== (int)$user->isAccountant;
         $return['blocked']             = 1 === (int)$user->blocked;
         $return['blocked_code']        = $user->blocked_code;
         $return['accounts']            = $user->accounts()->count();
