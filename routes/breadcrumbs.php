@@ -698,6 +698,21 @@ try {
             $breadcrumbs->push(trans('firefly.edit_accountant', ['email' => $user->email]), route('accountants.edit', [$user->id]));
         }
     );
+    Breadcrumbs::register(
+        'accountants.create',
+        function (BreadcrumbsGenerator $breadcrumbs) {
+            $breadcrumbs->parent('accountants.index');
+            $breadcrumbs->push(trans('firefly.create_accountant'), route('accountants.create'));
+        }
+    );
+
+    Breadcrumbs::register(
+        'accountants.delete',
+        function (BreadcrumbsGenerator $breadcrumbs, User $user) {
+            $breadcrumbs->parent('accountants.index');
+            $breadcrumbs->push(trans('firefly.delete_accountant', ['email' => $user->email]), route('accountants.delete', [$user->id]));
+        }
+    );
 
     Breadcrumbs::register(
         'profile.code',

@@ -1,6 +1,6 @@
 <?php
 /**
- * UserFormRequest.php
+ * UserRegistrationRequest.php
  * Copyright (c) 2019 james@firefly-iii.org
  *
  * This file is part of Firefly III (https://github.com/firefly-iii).
@@ -21,13 +21,14 @@
 declare(strict_types=1);
 
 namespace FireflyIII\Http\Requests;
+use FireflyIII\User;
 
 /**
- * Class UserFormRequest.
+ * Class AccountantFormRequest.
  *
  * @codeCoverageIgnore
  */
-class UserFormRequest extends Request
+class AccountantFormRequest extends Request
 {
     /**
      * Verify the request.
@@ -36,7 +37,7 @@ class UserFormRequest extends Request
      */
     public function authorize(): bool
     {
-        // Only allow logged in users
+        // Only everybody
         return auth()->check();
     }
 
@@ -45,13 +46,10 @@ class UserFormRequest extends Request
      *
      * @return array
      */
-    public function getUserData(): array
+    public function getAccountantData(): array
     {
         return [
             'email'        => $this->string('email'),
-            'isAccountant' => $this->integer('isAccountant'),
-            'blocked'      => 1 === $this->integer('blocked'),
-            'blocked_code' => $this->string('blocked_code'),
             'password'     => $this->string('password'),
         ];
     }
@@ -63,12 +61,10 @@ class UserFormRequest extends Request
      */
     public function rules(): array
     {
+        // fixed
         return [
-            'id'           => 'required|exists:users,id',
-            'email'        => 'email|required',
-            'password'     => 'confirmed|secure_password',
-            'blocked_code' => 'between:0,30|nullable',
-            'blocked'      => 'between:0,1|numeric',
+            'email'    => 'email|unique:users,email|required',
+            'password' => 'confirmed|secure_password|required',
         ];
     }
 }

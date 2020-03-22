@@ -7,15 +7,17 @@
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="box box-primary">
-				<div style="padding:8px;">
-					<a href="{#{{route('admin.update-check')}}#}" class="btn btn-success">
-						<i class="fa fa-plus fa-fw"></i>
-						{{ ('make_new_accountant')|_ }}</a>
-				</div>
 				<div class="box-header with-border">
 					<h3 class="box-title">{{ 'all_accountants'|_ }}</h3>
 				</div>
 				<div class="box-body table-responsive no-padding">
+					<div style="padding:8px;">
+						<a href="{{route('accountants.create')}}" class="btn btn-success">
+							<i class="fa fa-plus fa-fw"></i>
+							{{ ('make_new_accountant')|_ }}</a>
+					</div>
+
+
 					<table class="table table-condensed sortable">
 						<thead>
 							<tr>
@@ -40,7 +42,7 @@
 											<a class="btn btn-default" href="{{ route('accountants.edit',user.id) }}">
 												<i class="fa fa-pencil"></i>
 											</a>
-											<a class="btn btn-danger" href="{{ route('admin.users.delete',user.id) }}">
+											<a class="btn btn-danger" href="{{ route('accountants.delete',user.id) }}">
 												<i class="fa fa-trash"></i>
 											</a>
 										</div>
@@ -58,38 +60,38 @@
 										{{ user.updated_at.format('H:i') }}
 									</td>
 									{# <td class="hidden-xs" data-value="{% if user.isAdmin %}1{% else %}0{% endif %}">
-																																																																																											{% if user.isAdmin %}
-																																																																																												<small class="text-success">
-																																																																																													<i class="fa fa-fw fa-check"></i>
-																																																																																												</small>
-																																																																																											{% else %}
-																																																																																												<small class="text-danger">
-																																																																																													<i class="fa fa-fw fa-times"></i>
-																																																																																												</small>
-																																																																																											{% endif %}
-																																																																																										</td>
-																																																																																										<td class="hidden-xs" data-value="{% if user.isAccountant %}1{% else %}0{% endif %}">
-																																																																																											{% if user.isAccountant %}
-																																																																																												<small class="text-success">
-																																																																																													<i class="fa fa-fw fa-check"></i>
-																																																																																												</small>
-																																																																																											{% else %}
-																																																																																												<small class="text-danger">
-																																																																																													<i class="fa fa-fw fa-times"></i>
-																																																																																												</small>
-																																																																																											{% endif %}
-																																																																																										</td>
-																																																																																										<td class="hidden-xs" data-value="{% if user.has2FA %}1{% else %}0{% endif %}">
-																																																																																											{% if user.has2FA %}
-																																																																																												<small class="text-success">
-																																																																																													<i class="fa fa-fw fa-check"></i>
-																																																																																												</small>
-																																																																																											{% else %}
-																																																																																												<small class="text-danger">
-																																																																																													<i class="fa fa-fw fa-times"></i>
-																																																																																												</small>
-																																																																																											{% endif %}
-																																																																																										</td> #}
+																																																																																																																																																																			{% if user.isAdmin %}
+																																																																																																																																																																				<small class="text-success">
+																																																																																																																																																																					<i class="fa fa-fw fa-check"></i>
+																																																																																																																																																																				</small>
+																																																																																																																																																																			{% else %}
+																																																																																																																																																																				<small class="text-danger">
+																																																																																																																																																																					<i class="fa fa-fw fa-times"></i>
+																																																																																																																																																																				</small>
+																																																																																																																																																																			{% endif %}
+																																																																																																																																																																		</td>
+																																																																																																																																																																		<td class="hidden-xs" data-value="{% if user.isAccountant %}1{% else %}0{% endif %}">
+																																																																																																																																																																			{% if user.isAccountant %}
+																																																																																																																																																																				<small class="text-success">
+																																																																																																																																																																					<i class="fa fa-fw fa-check"></i>
+																																																																																																																																																																				</small>
+																																																																																																																																																																			{% else %}
+																																																																																																																																																																				<small class="text-danger">
+																																																																																																																																																																					<i class="fa fa-fw fa-times"></i>
+																																																																																																																																																																				</small>
+																																																																																																																																																																			{% endif %}
+																																																																																																																																																																		</td>
+																																																																																																																																																																		<td class="hidden-xs" data-value="{% if user.has2FA %}1{% else %}0{% endif %}">
+																																																																																																																																																																			{% if user.has2FA %}
+																																																																																																																																																																				<small class="text-success">
+																																																																																																																																																																					<i class="fa fa-fw fa-check"></i>
+																																																																																																																																																																				</small>
+																																																																																																																																																																			{% else %}
+																																																																																																																																																																				<small class="text-danger">
+																																																																																																																																																																					<i class="fa fa-fw fa-times"></i>
+																																																																																																																																																																				</small>
+																																																																																																																																																																			{% endif %}
+																																																																																																																																																																		</td> #}
 									<td data-value="{% if user.blocked %}1{% else %}0{% endif %}">
 										{% if user.blocked == 1 %}
 											<small class="text-danger">
@@ -117,6 +119,15 @@
 						</tbody>
 					</table>
 				</div>
+
+				<div class="box-footer">
+					<p>
+						<a href="{{route('accountants.create')}}" class="btn btn-success">
+							<i class="fa fa-plus fa-fw"></i>
+							{{ ('make_new_accountant')|_ }}</a>
+					</p>
+				</div>
+
 			</div>
 		</div>
 	</div>

@@ -5,6 +5,7 @@ namespace FireflyIII\Http\Controllers;
 use FireflyIII\Exceptions\FireflyException;
 use FireflyIII\Repositories\User\UserRepositoryInterface;
 use FireflyIII\Http\Requests\UserFormRequest;
+use FireflyIII\Http\Requests\AccountantFormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
@@ -115,7 +116,7 @@ class AccountantController extends Controller
 
         session()->flash('success', (string)trans('firefly.updated_user', ['email' => $user->email]));
         app('preferences')->mark();
-        $redirect = redirect($this->getPreviousUri('users.edit.uri'));
+        $redirect = redirect($this->getPreviousUri('accountants.edit.uri'));
         if (1 === (int)$request->get('return_to_edit')) {
             // @codeCoverageIgnoreStart
             session()->put('accountants.edit.fromUpdate', true);
@@ -127,4 +128,85 @@ class AccountantController extends Controller
         // redirect to previous URL.
         return $redirect;
     }    
+
+
+    /**
+     * Create a new accountant.
+     *
+     * @param Request $request
+     * @param string|null $objectType
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(Request $request)
+    {
+        $subTitle     = (string)trans('firefly.create_accountant');
+        $subTitleIcon = 'fa-user-o';
+
+        // put previous url in session if not redirect from store (not "create another").
+        if (true !== session('accountants.create.fromStore')) {
+            $this->rememberPreviousUri('accountants.create.uri');
+        }
+        $request->session()->forget('accountants.create.fromStore');
+        Log::channel('audit')->info('Creating new accountant.');
+
+        return view('accountants.create', compact('subTitle', 'subTitleIcon'));
+    }    
+    /**
+     * Store the new accountant.
+     *
+     * @param AccountantFormRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store(AccountantFormRequest $request)
+    {
+        $data = $request->getAccountantData();
+        $par_userid = auth()->user()->id;
+        $data['isAccountant'] = 1;
+        $user = $this->repository->store_accountant($data);
+
+        $request->session()->flash('success', (string)trans('firefly.stored_new_accountant', ['name' => $user->name]));
+        // app('preferences')->mark();
+
+        // Log::channel('audit')->info('Stored new account.', $data);
+        // redirect to previous URL.
+        $redirect = redirect($this->getPreviousUri('accountants.create.uri'));
+        if (1 === (int)$request->get('create_another')) {
+            // set value so create routine will not overwrite URL:
+            $request->session()->put('accountants.create.fromStore', true);
+            $redirect = redirect(route('accountants.create'))->withInput();
+        }
+        return $redirect;
+    }
+
+    /**
+     * Delete a user.
+     *
+     * @param Accountant $user
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function delete(User $user)
+    {
+        $subTitle = (string)trans('firefly.delete_accountant', ['email' => $user->email]);
+
+        return view('accountants.delete', compact('user', 'subTitle'));
+    }
+
+
+    /**
+     * Destroy a user.
+     *
+     * @param Accountant $user
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function destroy(User $user)
+    {
+        $this->repository->destroy($user);
+        session()->flash('success', (string)trans('firefly.accountant_deleted'));
+        return redirect(route('accountants.index'));
+    }
+
 }

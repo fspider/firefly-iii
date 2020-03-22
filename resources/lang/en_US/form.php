@@ -155,6 +155,7 @@ return [
     'delete_rule_group'           => 'Delete rule group ":title"',
     'delete_link_type'            => 'Delete link type ":name"',
     'delete_user'                 => 'Delete user ":email"',
+    'delete_accountant'           => 'Delete accountant ":email"',
     'delete_recurring'            => 'Delete recurring transaction ":title"',
     'user_areYouSure'             => 'If you delete user ":email", everything will be gone. There is no undo, undelete or anything. If you delete yourself, you will lose access to this instance of Firefly III.',
     'attachment_areYouSure'       => 'Are you sure you want to delete the attachment named ":name"?',

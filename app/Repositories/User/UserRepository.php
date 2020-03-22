@@ -335,8 +335,33 @@ class UserRepository implements UserRepositoryInterface
             [
                 'blocked'      => $data['blocked'] ?? false,
                 'blocked_code' => $data['blocked_code'] ?? null,
+                'isAccountant' => $data['isAccountant'] ?? 0,
                 'email'        => $data['email'],
                 'password'     => str_random(24),
+            ]
+        );
+        $role = $data['role'] ?? '';
+        if ('' !== $role) {
+            $this->attachRole($user, $role);
+        }
+
+        return $user;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return User
+     */
+    public function store_accountant(array $data): User
+    {
+        $user = User::create(
+            [
+                'blocked'      => $data['blocked'] ?? false,
+                'blocked_code' => $data['blocked_code'] ?? null,
+                'isAccountant' => $data['isAccountant'] ?? 0,
+                'email'        => $data['email'],
+                'password'     => bcrypt($data['password']),
             ]
         );
         $role = $data['role'] ?? '';

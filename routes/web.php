@@ -173,13 +173,16 @@ Route::group(
     ['middleware' => 'user-full-auth', 'namespace' => 'FireflyIII\Http\Controllers', 'prefix' => 'accountants', 'as' => 'accountants.'], static function () {
     Route::get('', ['uses' => 'AccountantController@index', 'as' => 'index']);
     Route::get('edit/{user}', ['uses' => 'AccountantController@edit', 'as' => 'edit']);
-    // Route::get('delete/{accountant}', ['uses' => 'AccountantController@delete', 'as' => 'delete']);
-    // Route::get('download/{accountant}', ['uses' => 'AccountantController@download', 'as' => 'download']);
+
+    // create
+    Route::get('create', ['uses' => 'AccountantController@create', 'as' => 'create']);
+    Route::post('store', ['uses' => 'AccountantController@store', 'as' => 'store']);
+
+    Route::get('delete/{user}', ['uses' => 'AccountantController@delete', 'as' => 'delete']);
     // Route::get('view/{accountant}', ['uses' => 'AccountantController@view', 'as' => 'view']);
 
     Route::post('update/{user}', ['uses' => 'AccountantController@update', 'as' => 'update']);
-    // Route::post('destroy/{accountant}', ['uses' => 'AccountantController@destroy', 'as' => 'destroy']);
-
+    Route::post('destroy/{user}', ['uses' => 'AccountantController@destroy', 'as' => 'destroy']);
 }
 );
 
