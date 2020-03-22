@@ -683,6 +683,14 @@ try {
             $breadcrumbs->push(trans('breadcrumbs.preferences'), route('preferences.index'));
         }
     );
+    // ACCOUNTANTS
+    Breadcrumbs::register(
+        'accountants.index',
+        function (BreadcrumbsGenerator $breadcrumbs) {
+            $breadcrumbs->parent('home');
+            $breadcrumbs->push(trans('breadcrumbs.accountants'), route('accountants.index'));
+        }
+    );
 
     Breadcrumbs::register(
         'profile.code',

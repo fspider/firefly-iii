@@ -53,6 +53,15 @@ class UserRepository implements UserRepositoryInterface
         return User::orderBy('id', 'DESC')->get(['users.*']);
     }
 
+
+    /**
+     * @return Collection
+     */
+    public function accountants(): Collection
+    {
+        return User::where('isAccountant', '!=', 0)->orderBy('id', 'DESC')->get(['users.*']);
+    }
+
     /**
      * @param User   $user
      * @param string $role

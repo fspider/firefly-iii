@@ -40,6 +40,13 @@ interface UserRepositoryInterface
     public function all(): Collection;
 
     /**
+     * Returns a collection of all accountants.
+     *
+     * @return Collection
+     */
+    public function accountants(): Collection;
+
+    /**
      * Gives a user a role.
      *
      * @param User   $user

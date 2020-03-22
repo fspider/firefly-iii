@@ -29,6 +29,7 @@ return [
     'newPiggyBank'           => 'Create a new piggy bank',
     'edit_piggyBank'         => 'Edit piggy bank ":name"',
     'preferences'            => 'Preferences',
+    'accountants'            => 'Accountants',
     'profile'                => 'Profile',
     'changePassword'         => 'Change your password',
     'change_email'           => 'Change your email address',

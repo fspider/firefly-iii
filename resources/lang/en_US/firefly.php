@@ -1053,6 +1053,7 @@ return [
     // menu and titles, should be recycled as often as possible:
     'currency'                                  => 'Currency',
     'preferences'                               => 'Preferences',
+    'accountants'                               => 'Accountants',
     'logout'                                    => 'Logout',
     'toggleNavigation'                          => 'Toggle navigation',
     'searchPlaceholder'                         => 'Search...',

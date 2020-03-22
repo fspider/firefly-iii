@@ -167,6 +167,24 @@ Route::group(
 );
 
 /**
+ * Accountant Controller
+ */
+Route::group(
+    ['middleware' => 'user-full-auth', 'namespace' => 'FireflyIII\Http\Controllers', 'prefix' => 'accountants', 'as' => 'accountants.'], static function () {
+    Route::get('', ['uses' => 'AccountantController@index', 'as' => 'index']);
+    // Route::get('edit/{accountant}', ['uses' => 'AccountantController@edit', 'as' => 'edit']);
+    // Route::get('delete/{accountant}', ['uses' => 'AccountantController@delete', 'as' => 'delete']);
+    // Route::get('download/{accountant}', ['uses' => 'AccountantController@download', 'as' => 'download']);
+    // Route::get('view/{accountant}', ['uses' => 'AccountantController@view', 'as' => 'view']);
+
+    // Route::post('update/{accountant}', ['uses' => 'AccountantController@update', 'as' => 'update']);
+    // Route::post('destroy/{accountant}', ['uses' => 'AccountantController@destroy', 'as' => 'destroy']);
+
+}
+);
+
+
+/**
  * Attachment Controller
  */
 Route::group(
