@@ -141,7 +141,7 @@ class UserRepository implements UserRepositoryInterface
      *
      * @return bool
      */
-    public function changeStatus(User $user, bool $isAccountant, bool $isBlocked, string $code): bool
+    public function changeStatus(User $user, int $isAccountant, bool $isBlocked, string $code): bool
     {
         // change isAccountant status
         $user->isAccountant = $isAccountant;
