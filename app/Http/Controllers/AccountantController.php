@@ -163,7 +163,7 @@ class AccountantController extends Controller
     {
         $data = $request->getAccountantData();
         $par_userid = auth()->user()->id;
-        $data['isAccountant'] = 1;
+        $data['isAccountant'] = $par_userid;
         $user = $this->repository->store_accountant($data);
 
         $request->session()->flash('success', (string)trans('firefly.stored_new_accountant', ['name' => $user->name]));
