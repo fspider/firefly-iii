@@ -57,7 +57,22 @@ class ApproveController extends Controller
         $subTitle = (string)trans('firefly.approve_subtitle');
         $approveUsers = $this->repository->approveUsers($userid);
         $categories = $this->repository->categories($user);
-        return view('approve.index', compact('subTitle', 'approveUsers', 'categories'));
+        $status = $this->repository->transactionStatus();
+        return view('approve.index', compact('subTitle', 'approveUsers', 'categories', 'status'));
+    }
+
+    /**
+     * Show expenses for approve.
+     *
+     * @param int $userid
+     *
+     * @return mixed
+     *
+     */
+    public function expenses(int $userid)
+    {
+        $result = $this->repository->expenses($userid);
+        return response()->json($result->toArray());
     }
 
     /**

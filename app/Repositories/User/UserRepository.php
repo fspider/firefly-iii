@@ -25,6 +25,7 @@ namespace FireflyIII\Repositories\User;
 use FireflyIII\Models\BudgetLimit;
 use FireflyIII\Models\Role;
 use FireflyIII\Models\AccountantUser;
+use FireflyIII\Models\TransactionStatu;
 use FireflyIII\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
@@ -81,6 +82,15 @@ class UserRepository implements UserRepositoryInterface
         ->orderBy('users.id', 'DESC')
         ->get();
     }
+    /**
+     * @return Collection
+     */
+    public function expenses(int $userid): Collection
+    {
+        if($userid == 0) return collect();
+        return User::find($userid)->accounts()->get();
+        // return User::find($userid)->accounts()->where('account_type_id', 4)->get('account.*');
+    }
 
     /**
      * @return Collection
@@ -88,6 +98,13 @@ class UserRepository implements UserRepositoryInterface
     public function categories(User $user): Collection
     {
         return $user->categories()->get('categories.*');
+    }
+    /**
+     * @return Collection
+     */
+    public function transactionStatus(): Collection
+    {
+        return TransactionStatu::get();
     }
 
     /**

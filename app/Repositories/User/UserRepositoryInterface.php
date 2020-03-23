@@ -50,11 +50,19 @@ interface UserRepositoryInterface
      * @return Collection
      */
     public function approveUsers(int $userid): Collection;
+    /**
+     * @return Collection
+     */
+    public function expenses(int $userid): Collection;
 
     /**
      * @return Collection
      */
     public function categories(User $user): Collection;
+    /**
+     * @return Collection
+     */
+    public function transactionStatus(): Collection;
 
     /**
      * Gives a user a role.

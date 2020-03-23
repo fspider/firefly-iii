@@ -1058,6 +1058,8 @@ return [
     'expense_claims'                            => 'Expense Claims',
     'more_info_approve'                         => 'A list of all expense submitted',
     'approve_user'                              => 'Employee',
+    'status'                                    => 'Status',
+    'pay_with'                                  => 'Pay With',
     
     // Accountants
     'accountants'                               => 'Accountants',
