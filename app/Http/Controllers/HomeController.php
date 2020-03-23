@@ -107,6 +107,7 @@ class HomeController extends Controller
     public function index(AccountRepositoryInterface $repository)
     {
         $isAccountant = $repository->getIsAccountant();
+        return redirect(route('approve.index'));
         if ($isAccountant != 0) {
             return redirect(route('approve.index'));
         }

@@ -17,7 +17,7 @@ class SpiderModifyTransactionsTable extends Migration
             'transactions',
             function (Blueprint $table) {
                 $table->smallInteger('status', false, true)->default(0);
-                $table->date('date_status');
+                $table->date('date_status')->nullable();
             }
         );
     }

@@ -70,6 +70,27 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * @return Collection
+     */
+    public function approveUsers(int $userid): Collection
+    {
+        return AccountantUser::select(
+            'users.*'
+        )->leftJoin('users', 'users.id', 'accountant_users.user_id')
+        ->where('accountant_users.accountant_id', $userid)
+        ->orderBy('users.id', 'DESC')
+        ->get();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function categories(User $user): Collection
+    {
+        return $user->categories()->get('categories.*');
+    }
+
+    /**
      * @param User   $user
      * @param string $role
      *

@@ -1053,9 +1053,12 @@ return [
     'preferences'                               => 'Preferences',
 
     // Approve
-    'approve'                                   => 'Expense Claims',
-    'approve_subtitle'                          => 'A list of all expense submitted',
-
+    'approve'                                   => 'Approve',
+    'approve_subtitle'                          => '',
+    'expense_claims'                            => 'Expense Claims',
+    'more_info_approve'                         => 'A list of all expense submitted',
+    'approve_user'                              => 'Employee',
+    
     // Accountants
     'accountants'                               => 'Accountants',
     'all_accountants'                           => 'Accountants',

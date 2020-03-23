@@ -54,8 +54,10 @@ class ApproveController extends Controller
         /** @var User $user */
         $user = auth()->user();
         $userid = $user->id;
-
-        return view('approve.index'/*, compact('accountants')*/);
+        $subTitle = (string)trans('firefly.approve_subtitle');
+        $approveUsers = $this->repository->approveUsers($userid);
+        $categories = $this->repository->categories($user);
+        return view('approve.index', compact('subTitle', 'approveUsers', 'categories'));
     }
 
     /**

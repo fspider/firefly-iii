@@ -47,6 +47,16 @@ interface UserRepositoryInterface
     public function accountants(int $userid): Collection;
 
     /**
+     * @return Collection
+     */
+    public function approveUsers(int $userid): Collection;
+
+    /**
+     * @return Collection
+     */
+    public function categories(User $user): Collection;
+
+    /**
      * Gives a user a role.
      *
      * @param User   $user

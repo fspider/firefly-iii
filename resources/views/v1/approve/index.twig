@@ -3,7 +3,52 @@
 {% block breadcrumbs %}
 	{{ Breadcrumbs.render }}
 {% endblock %}
+{% block content %}
+<div class="row">
+	<form class="form-horizontal nodisablebutton" id="report-form" action="{{ route('reports.index.post') }}" method="post">
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">{{ 'expense_claims'|_ }}</h3>
+				</div>
+				<div class="box-body">
+					<p class="text-info">
+						{{ 'more_info_approve'|_ }}
+					</p>
+					<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+					<div class="form-group">
+						<label for="inputApproveUser" class="col-sm-3 control-label">{{ 'approve_user'|_ }}</label>
 
+						<div class="col-sm-9">
+							<select name="approve_user" class="form-control" id="inputApproveUser">
+								{% for aprUser in approveUsers %}
+									<option label="{{aprUser.email}}" value={{aprUser.id}}>{{ aprUser.email}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputCategory" class="col-sm-3 control-label">{{ 'category'|_ }}</label>
+						<div class="col-sm-9">
+							<select name="category" class="form-control" id="inputCategory">
+								{% for category in categories %}
+									<option label="{{category.name}}" value={{category.id}}>{{ category.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+		</div>
+	</form>
+
+</div>
+{% endblock %}
 {% block styles %}
 	<link rel="stylesheet" href="v1/css/bootstrap-sortable.css?v={{ FF_VERSION }}" type="text/css" media="all"/>
 {% endblock %}
