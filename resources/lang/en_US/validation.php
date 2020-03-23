@@ -82,6 +82,7 @@ return [
     'digits_between'                 => 'The :attribute must be between :min and :max digits.',
     'email'                          => 'The :attribute must be a valid email address.',
     'email_exists'                   => 'This eamil already exists.',
+    'email_exists_user'              => 'This email already exists for normal User',
     'filled'                         => 'The :attribute field is required.',
     'exists'                         => 'The selected :attribute is invalid.',
     'image'                          => 'The :attribute must be an image.',

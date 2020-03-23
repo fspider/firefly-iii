@@ -61,10 +61,22 @@ class AccountantFormRequest extends Request
      */
     public function rules(): array
     {
-        // fixed
+        // fixed  
         return [
-            'email'    => 'email|unique:users,email|required',
+            'email'    => 'email|required', // unique:users,email|
             'password' => 'confirmed|secure_password|required',
         ];
     }
+    /**
+     * After Validation for this request.
+     *
+     * @return array
+     */
+
+    // public function withValidator($validator)
+    // {
+    //     $validator->after(function ($validator) {
+    //         $validator->errors()->add('email', 'Something is wrong with this field!');
+    //     });
+    // }
 }

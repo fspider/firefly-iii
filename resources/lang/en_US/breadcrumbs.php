@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 return [
     'home'                   => 'Home',
+    'approve'                => 'Expense Claims',
     'edit_currency'          => 'Edit currency ":name"',
     'delete_currency'        => 'Delete currency ":name"',
     'newPiggyBank'           => 'Create a new piggy bank',

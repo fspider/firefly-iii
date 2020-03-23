@@ -683,6 +683,16 @@ try {
             $breadcrumbs->push(trans('breadcrumbs.preferences'), route('preferences.index'));
         }
     );
+
+    // APPROVE
+    Breadcrumbs::register(
+        'approve.index',
+        function (BreadcrumbsGenerator $breadcrumbs) {
+            $breadcrumbs->parent('home');
+            $breadcrumbs->push(trans('breadcrumbs.approve'), route('approve.index'));
+        }
+    );
+    
     // ACCOUNTANTS
     Breadcrumbs::register(
         'accountants.index',

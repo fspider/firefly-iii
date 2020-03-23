@@ -1051,6 +1051,12 @@ return [
     // menu and titles, should be recycled as often as possible:
     'currency'                                  => 'Currency',
     'preferences'                               => 'Preferences',
+
+    // Approve
+    'approve'                                   => 'Expense Claims',
+    'approve_subtitle'                          => 'A list of all expense submitted',
+
+    // Accountants
     'accountants'                               => 'Accountants',
     'all_accountants'                           => 'Accountants',
     'make_new_accountant'                       => 'Create a new accountant',
@@ -1058,6 +1064,7 @@ return [
     'create_accountant'                         => 'Create Accountant',
     'update_accountant'                         => 'Update Accountant',
     'stored_new_accountant'                     => 'Stored New Accountant',
+    'stored_exists_accountant'                  => 'Stored Exists Accountant, Password not updated',
     'delete_accountant'                         => 'Delete Accountant :email',
     'accountant_deleted'                        => 'The accountant has been deleted',
 

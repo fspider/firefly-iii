@@ -63,6 +63,7 @@ class General extends AbstractExtension
             $this->formatDate(),
             $this->getMetaField(),
             $this->hasRole(),
+            $this->isAccountant(),
         ];
     }
 
@@ -234,6 +235,22 @@ class General extends AbstractExtension
                     return true;
                 }
 
+                return false;
+            }
+        );
+    }
+
+    /**
+     * Will return true if the user is of role X.
+     *
+     * @return TwigFunction
+     */
+    protected function isAccountant(): TwigFunction
+    {
+        return new TwigFunction(
+            'isAccountant',
+            static function (): bool {
+                return auth()->user()->isAccountant != 0;
                 return false;
             }
         );

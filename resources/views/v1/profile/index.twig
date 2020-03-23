@@ -31,7 +31,7 @@
                                     {{ 'permanent_delete_stuff'|_ }}
                                 </p>
                                 <ul>
-                                    <li><a onclick="return confirm('{{ trans('firefly.are_you_sure')|escape('js') }}');" class="text-danger" href="{{ route('profile.delete-budgets') }}">{{ 'delete_all_budgets'|_ }}</a></li>
+                                    {# <li><a onclick="return confirm('{{ trans('firefly.are_you_sure')|escape('js') }}');" class="text-danger" href="{{ route('profile.delete-budgets') }}">{{ 'delete_all_budgets'|_ }}</a></li> #}
                                     <li><a onclick="return confirm('{{ trans('firefly.are_you_sure')|escape('js') }}');" class="text-danger" href="{{ route('profile.delete-categories') }}">{{ 'delete_all_categories'|_ }}</a></li>
                                     <li><a onclick="return confirm('{{ trans('firefly.are_you_sure')|escape('js') }}');" class="text-danger" href="{{ route('profile.delete-tags') }}">{{ 'delete_all_tags'|_ }}</a></li>
                                 </ul>

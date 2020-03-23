@@ -48,6 +48,14 @@ interface AccountRepositoryInterface
     public function count(array $types): int;
 
     /**
+     * @param array $types
+     *
+     * @return int
+     */
+    public function getIsAccountant(): int;
+
+
+    /**
      * Get account location, if any.
      *
      * @param Account $account

@@ -24,9 +24,11 @@ namespace FireflyIII\Repositories\User;
 
 use FireflyIII\Models\BudgetLimit;
 use FireflyIII\Models\Role;
+use FireflyIII\Models\AccountantUser;
 use FireflyIII\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
+use DB;
 use Log;
 
 /**
@@ -59,7 +61,12 @@ class UserRepository implements UserRepositoryInterface
      */
     public function accountants(int $userid): Collection
     {
-        return User::where('isAccountant', $userid)->orderBy('id', 'DESC')->get(['users.*']);
+        return AccountantUser::select(
+            'users.*'
+        )->leftJoin('users', 'users.id', 'accountant_users.accountant_id')
+        ->where('accountant_users.user_id',$userid)
+        ->orderBy('users.id', 'DESC')
+        ->get();
     }
 
     /**
@@ -181,6 +188,9 @@ class UserRepository implements UserRepositoryInterface
      */
     public function destroy(User $user): bool
     {
+        AccountantUser::where('accountant_id', $user->id)->delete();
+        AccountantUser::where('user_id', $user->id)->delete();
+
         Log::debug(sprintf('Calling delete() on user %d', $user->id));
         $user->delete();
 
@@ -350,27 +360,67 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * @param array $data
-     *
-     * @return User
+     * @param int   $user_id
+     * @return Array
      */
-    public function store_accountant(array $data): User
+    public function store_accountant(array $data, int $user_id): Array
     {
-        $user = User::create(
-            [
-                'blocked'      => $data['blocked'] ?? false,
-                'blocked_code' => $data['blocked_code'] ?? null,
-                'isAccountant' => $data['isAccountant'] ?? 0,
-                'email'        => $data['email'],
-                'password'     => bcrypt($data['password']),
-            ]
-        );
+        $userExists = User::where('email', $data['email'])
+                    ->where('isAccountant', 0)->exists();
+        if($userExists) return [null, 0]; // Email of normal User exists
+
+        $user = User::where('email', $data['email'])->first();
+        $exists = 1;    // Email of accountant already exists
+        if($user == null) {
+            $user = User::create(
+                [
+                    'blocked'      => $data['blocked'] ?? false,
+                    'blocked_code' => $data['blocked_code'] ?? null,
+                    'isAccountant' => $data['isAccountant'] ?? 0,
+                    'email'        => $data['email'],
+                    'password'     => bcrypt($data['password']),
+                ]
+            );
+            $exists = 2;
+        }
+        if(!AccountantUser::where('accountant_id', $user->id)
+            ->where('user_id', $user_id)->exists()){
+            $accountantuser = AccountantUser::create(
+                [
+                    'accountant_id' => $user->id,
+                    'user_id' => $user_id,
+                ]
+            );
+        }
+
         $role = $data['role'] ?? '';
         if ('' !== $role) {
             $this->attachRole($user, $role);
         }
 
-        return $user;
+        return [$user, $exists];
     }
+
+    /**
+     * @param User $user
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function destroy_accountant(User $user, int $user_id): bool
+    {
+        AccountantUser::where('accountant_id', $user->id)
+            ->where('user_id', $user_id)
+            ->delete();
+
+        # IF there is no user attached, remove this accountant.
+        if(!AccountantUser::where('accountant_id', $user->id)->exists()){
+            $user->delete();
+        }
+        Log::debug(sprintf('Calling delete() on accountant %d', $user->id));
+        return true;
+    }
+
 
     /**
      * @param User $user

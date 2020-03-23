@@ -71,6 +71,17 @@ class AccountRepository implements AccountRepositoryInterface
     }
 
     /**
+     * @param array $types
+     *
+     * @return int
+     */
+    public function getIsAccountant(): int
+    {
+        return $this->user->isAccountant;
+    }
+
+
+    /**
      * Moved here from account CRUD.
      *
      * @param Account      $account

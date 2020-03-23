@@ -110,6 +110,14 @@ interface UserRepositoryInterface
     public function destroy(User $user): bool;
 
     /**
+     * @param User $user
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function destroy_accountant(User $user, int $user_id): bool;
+
+    /**
      * @param string $email
      *
      * @return User|null
@@ -182,6 +190,13 @@ interface UserRepositoryInterface
      * @return User
      */
     public function store(array $data): User;
+
+    /**
+     * @param array $data
+     * @param int   $user_id
+     * @return Array
+     */
+    public function store_accountant(array $data, int $user_id): Array;
 
     /**
      * @param User $user

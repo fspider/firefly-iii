@@ -165,6 +165,26 @@ Route::group(
 
 }
 );
+/**
+ * Approve Controller
+ */
+Route::group(
+    ['middleware' => 'user-full-auth', 'namespace' => 'FireflyIII\Http\Controllers', 'prefix' => 'approve', 'as' => 'approve.'], static function () {
+    Route::get('', ['uses' => 'ApproveController@index', 'as' => 'index']);
+    // Route::get('edit/{user}', ['uses' => 'AccountantController@edit', 'as' => 'edit']);
+
+    // create
+    // Route::get('create', ['uses' => 'AccountantController@create', 'as' => 'create']);
+    // Route::post('store', ['uses' => 'AccountantController@store', 'as' => 'store']);
+
+    // Route::get('delete/{user}', ['uses' => 'AccountantController@delete', 'as' => 'delete']);
+    // Route::get('view/{accountant}', ['uses' => 'AccountantController@view', 'as' => 'view']);
+
+    // Route::post('update/{user}', ['uses' => 'AccountantController@update', 'as' => 'update']);
+    // Route::post('destroy/{user}', ['uses' => 'AccountantController@destroy', 'as' => 'destroy']);
+}
+);
+
 
 /**
  * Accountant Controller

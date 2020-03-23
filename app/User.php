@@ -129,6 +129,7 @@ class User extends Authenticatable
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'blocked'    => 'boolean',
+            'isAccountant' => 'int',
         ];
     /**
      * The attributes that are mass assignable.
@@ -177,6 +178,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Account::class);
     }
+
+    /**
+     * @codeCoverageIgnore
+     * Link to accounts.
+     *
+     * @return HasMany
+     */
+    public function accountants(): HasMany
+    {
+        // return $this->hasMany(User::class, 'accountant_users', 'user_id', );
+    }
+
 
     /**
      * @codeCoverageIgnore

@@ -5,7 +5,6 @@ namespace FireflyIII\Http\Controllers;
 use FireflyIII\Exceptions\FireflyException;
 use FireflyIII\Repositories\User\UserRepositoryInterface;
 use FireflyIII\Http\Requests\UserFormRequest;
-use FireflyIII\Http\Requests\AccountantFormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
@@ -14,18 +13,18 @@ use FireflyIII\User;
 use Log;
 
 /**
- * Class AccountantController.
+ * Class ApproveController.
  *
  */
 
 
-class AccountantController extends Controller
+class ApproveController extends Controller
 {
     /** @var UserRepositoryInterface */
     private $repository;
 
     /**
-     * AccountantController constructor.
+     * ApproveController constructor.
      * @codeCoverageIgnore
      */
     public function __construct()
@@ -35,8 +34,9 @@ class AccountantController extends Controller
         // translations:
         $this->middleware(
             function ($request, $next) {
-                app('view')->share('mainTitleIcon', 'fa-ticket');
-                app('view')->share('title', (string)trans('firefly.accountants'));
+                // app('view')->share('title', 'Firefly III');
+                app('view')->share('title', (string)trans('firefly.approve'));
+                app('view')->share('mainTitleIcon', 'fa-fire');
                 $this->repository = app(UserRepositoryInterface::class);
 
                 return $next($request);
@@ -45,7 +45,7 @@ class AccountantController extends Controller
     }
 
     /**
-     * Index of all accountants.
+     * Index of approve.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -54,9 +54,8 @@ class AccountantController extends Controller
         /** @var User $user */
         $user = auth()->user();
         $userid = $user->id;
-        $accountants = $this->repository->accountants($userid);
 
-        return view('accountants.index', compact('accountants'));
+        return view('approve.index'/*, compact('accountants')*/);
     }
 
     /**
@@ -148,6 +147,7 @@ class AccountantController extends Controller
 
         return view('accountants.create', compact('subTitle', 'subTitleIcon'));
     }    
+
     /**
      * Store the new accountant.
      *

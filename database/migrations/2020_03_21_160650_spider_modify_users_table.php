@@ -16,9 +16,21 @@ class SpiderModifyUsersTable extends Migration
         Schema::table(
             'users',
             function (Blueprint $table) {
-                $table->smallInteger('isAccountant', false, true)->default(0);
+                $table->smallinteger('isAccountant', false, true)->default(0);
             }
         );
+        if (!Schema::hasTable('accountant_users')) {
+            Schema::create(
+                'accountant_users',
+                function (Blueprint $table) {
+                    $table->increments('id');
+                    $table->timestamps();
+                    $table->integer('accountant_id', false, true)->default(0);
+                    $table->integer('user_id', false, true)->default(0);
+                    $table->tinyInteger('status', false, true)->default(0);
+                }
+            );
+        }
     }
 
     /**
@@ -35,6 +47,10 @@ class SpiderModifyUsersTable extends Migration
                     $table->dropColumn('isAccountant');
                 }
             );
+        }
+
+        if (Schema::hasTable('accountant_users')) {
+            Schema::drop('accountant_users');
         }
     }
 }

@@ -92,9 +92,12 @@
                         </span>
                         </li>
                     {% endif %}
+
+                    {% if not isAccountant() %}
                     <li id="sidebar-toggle">
                         <a href="#" data-toggle="control-sidebar"><i class="fa fa-plus-circle"></i></a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
 
