@@ -138,4 +138,9 @@ return [
     'interest'                => 'Interest',
     'interest_period'         => 'interest period',
     'liability_type'          => 'Type of liability',
+    'employee'                => 'Employee',
+    'currency'                => 'Currency',
+    'paid_with'               => 'Paid With',
+    'attachment'              => 'Attachment',
+    'status'                  => 'Status',
 ];

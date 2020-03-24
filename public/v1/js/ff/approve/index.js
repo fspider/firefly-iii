@@ -46,6 +46,12 @@ $(function () {
     // $('.date-select').on('click', preSelectDate);
     // $('#approve-form').on('submit', catchSubmit);
     $('select[name="approve_user"]').on('change', getExpenses);
+    // $('#inputApproveUser').on('change', uiChanged);
+    $('#inputCategory').on('change', uiChanged);
+    $('#inputStatu').on('change', uiChanged);
+    $('#inputExpense').on('change', uiChanged);
+    $('#inputDateRange').on('change', uiChanged);
+
     getExpenses();
 });
 
@@ -71,6 +77,7 @@ function getExpenses() {
         // console.log('[SPIDER] [Expenses JSON DATA]', datas);
         // setOptionalFromCookies();
         // box.find('.overlay').hide();
+        uiChanged();
     }).fail(function () {
         console.log('[SPIDER] [ERROR] While Getting Expenses user no : ', approveUser);
         // boxBody.addClass('error');
@@ -78,6 +85,28 @@ function getExpenses() {
     });
 }
 
+function uiChanged() { 
+    console.log('[SPIDER] UI Changed');
+    saveCookies();
+    updateTable();
+}
+
+function updateTable() { 
+    var approveUser = $('#inputApproveUser').val();
+    var category = $('#inputCategory').val();
+    var statu = $('#inputStatu').val();
+    var expense = $('#inputExpense').val();
+    var picker = $('#inputDateRange').data('daterangepicker');
+    var stDate = moment(picker.startDate).format("YYYYMMDD");
+    var edDate = moment(picker.endDate).format("YYYYMMDD");
+    tableApproves
+    $.getJSON('approve/approves/' + approveUser + '/' + category + '/' + statu + '/' + expense + '/' + stDate + '/' + edDate, function (html) {
+        // console.log(html);
+        $('#tableApproves').html(html);
+    }).fail(function () {
+        console.log('[SPIDER] [ERROR] While Getting Approves user no : ', approveUser);
+    });
+}
 function saveCookies() {
     "use strict";
     // date, processed:

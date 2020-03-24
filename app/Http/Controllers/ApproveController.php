@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Validation\ValidationException;
 use FireflyIII\User;
+use Carbon\Carbon;
 use Log;
 
 /**
@@ -73,6 +74,27 @@ class ApproveController extends Controller
     {
         $result = $this->repository->expenses($userid);
         return response()->json($result->toArray());
+    }
+
+    /**
+     * Show expenses for approve.
+     *
+     * @param int $userid
+     * @param int $categoryid
+     * @param int $statuid
+     * @param int $expenseid
+     * @param Carbon $start
+     * @param Carbon $end
+     *
+     * @return mixed
+     *
+     */
+    public function approves(int $userid, int $categoryid, $statuid, $expenseid, Carbon $start, Carbon $end)
+    {
+        // $result = $this->repository->expenses($userid);
+        // return response()->json($result->toArray());
+        // return response()->json('abscd');
+        return response()->json(view('list.approves'/*, compact('subTitle', 'approveUsers', 'categories', 'status')*/)->render());
     }
 
     /**
