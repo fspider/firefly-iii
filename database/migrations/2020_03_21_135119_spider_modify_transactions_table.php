@@ -29,12 +29,14 @@ class SpiderModifyTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::table(
-            'transaction_journals',
-            function (Blueprint $table) {
-                $table->dropColumn('status');
-                $table->dropColumn('date_status');
-            }
-        );
+        if (Schema::hasColumn('transaction_journals', 'status')) {
+            Schema::table(
+                'transaction_journals',
+                function (Blueprint $table) {
+                    $table->dropColumn('status');
+                    $table->dropColumn('date_status');
+                }
+            );
+        }
     }
 }
