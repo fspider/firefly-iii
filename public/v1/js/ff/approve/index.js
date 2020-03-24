@@ -51,6 +51,8 @@ $(function () {
     $('#inputStatu').on('change', uiChanged);
     $('#inputExpense').on('change', uiChanged);
     $('#inputDateRange').on('change', uiChanged);
+    $('.statusAction').on('click', statusChanged);
+
     // getExpenses();
 });
 
@@ -89,6 +91,18 @@ function uiChanged() {
     console.log('redirecting...');
     updateTable();
 }
+
+function statusChanged(event) {
+    tranid = event.target.children[0].getAttribute('value');
+    statuid = event.target.children[1].getAttribute('value');
+    console.log(tranid, statuid);
+    $.getJSON('approve/actions/' + tranid + '/' + statuid, function (data) {
+        $('#status_'+tranid).html(data);
+    }).fail(function () {
+        console.log('Update Status Failed');        
+    });
+}
+
 
 function updateTable() {
     var approveUser = $('#inputApproveUser').val();

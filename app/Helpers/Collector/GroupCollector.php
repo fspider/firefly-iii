@@ -1195,6 +1195,9 @@ class GroupCollector implements GroupCollectorInterface
                      ->where('destination.amount', '>', 0);
             }
             )
+            ->leftJoin(
+                'transaction_status', 'transaction_status.id', 'transaction_journals.status'
+            )
             // left join transaction type.
             ->leftJoin('transaction_types', 'transaction_types.id', '=', 'transaction_journals.transaction_type_id')
             ->leftJoin('transaction_currencies as currency', 'currency.id', '=', 'source.transaction_currency_id')
@@ -1305,6 +1308,8 @@ class GroupCollector implements GroupCollectorInterface
             $this->user = User::find($userid);
             $this->startQuery();
         }
+        $this->fields[] = 'transaction_journals.status as status_id';
+        $this->fields[] = 'transaction_status.status as status_name';
         return $this;
     }
 
@@ -1313,8 +1318,6 @@ class GroupCollector implements GroupCollectorInterface
      */
      private function startAllQuery(Collection $users): void
     {
-        app('log')->error($users->pluck('id')->toArray());
-
         app('log')->debug('GroupCollector::startQuery');
         
         $this->query = TransactionJournal::
@@ -1354,10 +1357,6 @@ class GroupCollector implements GroupCollectorInterface
             ->orderBy('transaction_journals.id', 'DESC')
             ->orderBy('transaction_journals.description', 'DESC')
             ->orderBy('source.amount', 'DESC');
-
-            $this->fields[] = 'transaction_journals.status as status_id';
-            $this->fields[] = 'transaction_status.status as status_name';
-
         }
     /**
      * Limit the search to a specific category.

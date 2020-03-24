@@ -154,9 +154,10 @@
                     </td>
                 {% endif %} #}
                 <td style=" {{ style|raw }};">
-                    <a> {{transaction.status_name}} </a>
+                    <a id="status_{{transaction.transaction_journal_id}}">
+                        {{transaction.status_name}}
+                    </a>
                 </td>
-
 
                 {% if group.count == 1 %}
                     <td style=" {{ style|raw }};">
@@ -168,16 +169,18 @@
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                 {% for statu in status %}
                                     <li>
-                                        <a href="{{ route('transactions.edit', [group.id]) }}">
+                                        <a class="statusAction">
+                                            <div id="transid" value={{transaction.transaction_journal_id}} hidden> </div>
+                                            <div id="statuid" value={{statu.id}} hidden> </div>
                                             {# <i class="fa fa-fw fa-pencil"></i> #}
-                                            {{ statu.status }}</a>
+                                            {{ statu.status }}
+                                        </a>
                                     </li>
                                     {# <option label="{{statu.status}}" value={{statu.id}}>{{ statu.status}}</option> #}
                                 {% endfor %}
                             </ul>
                         </div>
                     </td>
-
                 {% endif %}
                 {# {% if group.count != 1 %}
                     <td style=" {{ style|raw }};">
@@ -237,7 +240,5 @@
         {% endif %}
     </tr>
     </tfoot>
-
-
 
 </table>

@@ -26,9 +26,12 @@ use FireflyIII\Models\BudgetLimit;
 use FireflyIII\Models\Role;
 use FireflyIII\Models\AccountantUser;
 use FireflyIII\Models\TransactionStatu;
+use FireflyIII\Models\TransactionJournal;
 use FireflyIII\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
+
 use DB;
 use Log;
 
@@ -109,6 +112,12 @@ class UserRepository implements UserRepositoryInterface
     public function transactionStatus(): Collection
     {
         return TransactionStatu::get();
+    }
+
+    public function updateStatus($tranid, $statuid): string
+    {
+        TransactionJournal::where('id', $tranid)->update(['status'=>$statuid, 'date_status'=>Carbon::now()]);
+        return TransactionStatu::where('id', $statuid)->get('status')->pluck('status')->toArray()[0];
     }
 
     /**

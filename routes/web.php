@@ -173,6 +173,7 @@ Route::group(
     Route::get('', ['uses' => 'ApproveController@index', 'as' => 'index']);
     Route::get('expenses/{userid}', ['uses' => 'ApproveController@expenses', 'as' => 'expenses']);
     Route::get('approves/{userid}/{categoryid}/{statuid}/{expenseid}/{start_date}/{end_date}', ['uses' => 'ApproveController@approves', 'as' => 'approves']);
+    Route::get('actions/{tranid}/{statuid}', ['uses' => 'ApproveController@actions', 'as' => 'actions']);
 
     // Route::get('edit/{user}', ['uses' => 'AccountantController@edit', 'as' => 'edit']);
 

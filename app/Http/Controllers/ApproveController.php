@@ -186,6 +186,20 @@ class ApproveController extends Controller
     /**
      * Edit accountant form.
      *
+     * @param int $tranid
+     * @param int $statuid
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function actions(int $tranid, int $statuid) {
+        // app('log')->error();
+        $result = $this->repository->updateStatus($tranid, $statuid);
+        return response()->json($result);
+    }
+
+    /**
+     * Edit accountant form.
+     *
      * @param User $user
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
