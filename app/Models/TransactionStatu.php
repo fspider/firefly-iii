@@ -17,7 +17,7 @@ class TransactionStatu extends Model
     public const AWAITING_APPROVAL = 'Awaiting Approval';
     public const AWAITING_PAYMENT = 'Awaiting Payment';
     public const DECLINED = 'Declined';
-    public const SUCCESS = 'Success';
+    public const PAID = 'Paid';
     /**
      * The attributes that should be casted to native types.
      *

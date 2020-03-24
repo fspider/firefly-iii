@@ -1289,8 +1289,116 @@ class GroupCollector implements GroupCollectorInterface
     public function withAttachmentInformation(): GroupCollectorInterface
     {
         $this->fields[] = 'attachments.id as attachment_id';
+        $this->fields[] = 'attachments.filename as filename';
+
         $this->joinAttachmentTables();
 
         return $this;
     }
+
+    public function setMyUser(int $userid, Collection $users):GroupCollectorInterface
+    {
+        
+        if($userid == 0) {
+            $this->startAllQuery($users);
+        } else {
+            $this->user = User::find($userid);
+            $this->startQuery();
+        }
+        return $this;
+    }
+
+    /**
+     * Build the query.
+     */
+     private function startAllQuery(Collection $users): void
+    {
+        app('log')->error($users->pluck('id')->toArray());
+
+        app('log')->debug('GroupCollector::startQuery');
+        
+        $this->query = TransactionJournal::
+            //->transactionGroups()
+            //->leftJoin('transaction_journals', 'transaction_journals.transaction_group_id', 'transaction_groups.id')
+            // leftJoin('transaction_journals', 'transaction_journals.user_id', 'users.id')
+            leftJoin('transaction_groups', 'transaction_journals.transaction_group_id', 'transaction_groups.id')
+
+            // join source transaction.
+            ->leftJoin(
+                'transactions as source', function (JoinClause $join) {
+                $join->on('source.transaction_journal_id', '=', 'transaction_journals.id')
+                     ->where('source.amount', '<', 0);
+            }
+            )
+            // join destination transaction
+            ->leftJoin(
+                'transactions as destination', function (JoinClause $join) {
+                $join->on('destination.transaction_journal_id', '=', 'transaction_journals.id')
+                     ->where('destination.amount', '>', 0);
+            }
+            )
+            ->leftJoin(
+                'transaction_status', 'transaction_status.id', 'transaction_journals.status'
+            )
+            // left join transaction type.
+            ->whereIn('transaction_journals.user_id', $users->pluck('id')->toArray())
+            ->leftJoin('transaction_types', 'transaction_types.id', '=', 'transaction_journals.transaction_type_id')
+            ->leftJoin('transaction_currencies as currency', 'currency.id', '=', 'source.transaction_currency_id')
+            ->leftJoin('transaction_currencies as foreign_currency', 'foreign_currency.id', '=', 'source.foreign_currency_id')
+            ->whereNull('transaction_groups.deleted_at')
+            ->whereNull('transaction_journals.deleted_at')
+            ->whereNull('source.deleted_at')
+            ->whereNull('destination.deleted_at')
+            ->orderBy('transaction_journals.date', 'DESC')
+            ->orderBy('transaction_journals.order', 'ASC')
+            ->orderBy('transaction_journals.id', 'DESC')
+            ->orderBy('transaction_journals.description', 'DESC')
+            ->orderBy('source.amount', 'DESC');
+
+            $this->fields[] = 'transaction_journals.status as status_id';
+            $this->fields[] = 'transaction_status.status as status_name';
+
+        }
+    /**
+     * Limit the search to a specific category.
+     *
+     * @param Category $category
+     *
+     * @return GroupCollectorInterface
+     */
+    public function setCategoryId(int $categoryid): GroupCollectorInterface
+    {
+        $this->withCategoryInformation();
+        $this->query->where('categories.id', $categoryid);
+        return $this;
+    }
+
+
+    /**
+     * Define which accounts can be part of the source and destination transactions.
+     *
+     * @param Collection $accounts
+     *
+     * @return GroupCollectorInterface
+     */
+    public function setAccountId(int $accountId): GroupCollectorInterface
+    {
+        $this->withAccountInformation();
+        $this->query->where('destination.account_id', $accountId);
+        return $this;
+    }    
+
+    /**
+     * Define which accounts can be part of the source and destination transactions.
+     *
+     * @param Collection $accounts
+     *
+     * @return GroupCollectorInterface
+     */
+    public function setStatusId(int $statuid): GroupCollectorInterface
+    {
+        $this->query->where('transaction_journals.status', $statuid);
+        return $this;
+    }    
+
 }

@@ -17,42 +17,41 @@ $(function () {
         );
 
         // set approve user from cookie, if any:
-        if (!(readCookie('approve-user') === null)) {
-            $('select[name="approve_user"]').val(readCookie('approve-user'));
-        }
+        // if (!(readCookie('approve-user') === null)) {
+        //     $('select[name="approve_user"]').val(readCookie('approve-user'));
+        // }
 
         // set category from cookie
-        if ((readCookie('category') !== null)) {
-            $('select[name="category"]').val(readCookie('approve-category'));
-        }
+        // if ((readCookie('category') !== null)) {
+        //     $('select[name="category"]').val(readCookie('approve-category'));
+        // }
 
         // set status from cookie
-        if ((readCookie('statu') !== null)) {
-            $('select[name="statu"]').val(readCookie('approve-statu'));
-        }
+        // if ((readCookie('statu') !== null)) {
+        //     $('select[name="statu"]').val(readCookie('approve-statu'));
+        // }
 
         // set date from cookie
-        var startStr = readCookie('approve-start');
-        var endStr = readCookie('approve-end');
-        if (startStr !== null && endStr !== null && startStr.length === 8 && endStr.length === 8) {
-            var startDate = moment(startStr, "YYYY-MM-DD");
-            var endDate = moment(endStr, "YYYY-MM-DD");
-            var datePicker = $('#inputDateRange').data('daterangepicker');
-            datePicker.setStartDate(startDate);
-            datePicker.setEndDate(endDate);
-        }
+        // var startStr = readCookie('approve-start');
+        // var endStr = readCookie('approve-end');
+        // if (startStr !== null && endStr !== null && startStr.length === 8 && endStr.length === 8) {
+        //     var startDate = moment(startStr, "YYYY-MM-DD");
+        //     var endDate = moment(endStr, "YYYY-MM-DD");
+        //     var datePicker = $('#inputDateRange').data('daterangepicker');
+        //     datePicker.setStartDate(startDate);
+        //     datePicker.setEndDate(endDate);
+        // }
     }
 
     // $('.date-select').on('click', preSelectDate);
     // $('#approve-form').on('submit', catchSubmit);
-    $('select[name="approve_user"]').on('change', getExpenses);
-    // $('#inputApproveUser').on('change', uiChanged);
+    // $('select[name="approve_user"]').on('change', getExpenses);
+    $('#inputApproveUser').on('change', uiChanged);
     $('#inputCategory').on('change', uiChanged);
     $('#inputStatu').on('change', uiChanged);
     $('#inputExpense').on('change', uiChanged);
     $('#inputDateRange').on('change', uiChanged);
-
-    getExpenses();
+    // getExpenses();
 });
 
 function getExpenses() {
@@ -77,7 +76,6 @@ function getExpenses() {
         // console.log('[SPIDER] [Expenses JSON DATA]', datas);
         // setOptionalFromCookies();
         // box.find('.overlay').hide();
-        uiChanged();
     }).fail(function () {
         console.log('[SPIDER] [ERROR] While Getting Expenses user no : ', approveUser);
         // boxBody.addClass('error');
@@ -86,12 +84,13 @@ function getExpenses() {
 }
 
 function uiChanged() { 
-    console.log('[SPIDER] UI Changed');
-    saveCookies();
+    // console.log('[SPIDER] UI Changed');
+    // saveCookies();
+    console.log('redirecting...');
     updateTable();
 }
 
-function updateTable() { 
+function updateTable() {
     var approveUser = $('#inputApproveUser').val();
     var category = $('#inputCategory').val();
     var statu = $('#inputStatu').val();
@@ -99,13 +98,14 @@ function updateTable() {
     var picker = $('#inputDateRange').data('daterangepicker');
     var stDate = moment(picker.startDate).format("YYYYMMDD");
     var edDate = moment(picker.endDate).format("YYYYMMDD");
-    tableApproves
-    $.getJSON('approve/approves/' + approveUser + '/' + category + '/' + statu + '/' + expense + '/' + stDate + '/' + edDate, function (html) {
-        // console.log(html);
-        $('#tableApproves').html(html);
-    }).fail(function () {
-        console.log('[SPIDER] [ERROR] While Getting Approves user no : ', approveUser);
-    });
+    window.location.replace('approve/approves/' + approveUser + '/' + category + '/' + statu + '/' + expense + '/' + stDate + '/' + edDate);
+
+    // $.getJSON('approve/approves/' + approveUser + '/' + category + '/' + statu + '/' + expense + '/' + stDate + '/' + edDate, function (html) {
+    //     // console.log(html);
+    //     $('#tableApproves').html(html);
+    // }).fail(function () {
+    //     console.log('[SPIDER] [ERROR] While Getting Approves user no : ', approveUser);
+    // });
 }
 function saveCookies() {
     "use strict";

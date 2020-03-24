@@ -21,9 +21,13 @@
 
 						<div class="col-sm-9">
 							<select name="approve_user" class="form-control" id="inputApproveUser">
-								<option label="All" value={{0}}>All</option>
+								<option label="All" value={{0}} >All</option>
 								{% for aprUser in approveUsers %}
-									<option label="{{aprUser.email}}" value={{aprUser.id}}>{{ aprUser.email}}</option>
+									<option label="{{aprUser.email}}" value={{aprUser.id}}
+									{% if aprUser.id == userid %}
+										selected
+									{% endif %}
+									>{{ aprUser.email}}</option>
 								{% endfor %}
 							</select>
 						</div>
@@ -35,7 +39,11 @@
 							<select name="category" class="form-control" id="inputCategory">
 								<option label="All" value={{0}}>All</option>
 								{% for category in categories %}
-									<option label="{{category.name}}" value={{category.id}}>{{ category.name}}</option>
+									<option label="{{category.name}}" value={{category.id}}
+									{% if category.id == categoryid %}
+										selected
+									{% endif %}
+									>{{ category.name}}</option>
 								{% endfor %}
 							</select>
 						</div>
@@ -47,7 +55,11 @@
 							<select name="statu" class="form-control" id="inputStatu">
 								<option label="All" value={{0}}>All</option>
 								{% for statu in status %}
-									<option label="{{statu.status}}" value={{statu.id}}>{{ statu.status}}</option>
+									<option label="{{statu.status}}" value={{statu.id}}
+									{% if statu.id == statuid %}
+										selected
+									{% endif %}
+									>{{ statu.status}}</option>
 								{% endfor %}
 							</select>
 						</div>
@@ -58,9 +70,13 @@
 						<div class="col-sm-9">
 							<select name="expense" class="form-control" id="inputExpense">
 								<option label="All" value={{0}}>All</option>
-								{# {% for expense in expenses %}
-									<option label="{{expense.name}}" value={{expense.id}}>{{ expense.name}}</option>
-								{% endfor %} #}
+								{% for expense in expenses %}
+									<option label="{{expense.name}}" value={{expense.id}}
+									{% if expense.id == expenseid %}
+										selected
+									{% endif %}
+									>{{ expense.name}}</option>
+								{% endfor %}
 							</select>
 						</div>
 					</div>
@@ -96,6 +112,7 @@
 	</div>
 </div>
 
+{% include 'list.approves' %}
 
 {% endblock %}
 {# {% block styles %}

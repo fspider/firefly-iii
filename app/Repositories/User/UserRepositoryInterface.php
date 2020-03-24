@@ -58,7 +58,7 @@ interface UserRepositoryInterface
     /**
      * @return Collection
      */
-    public function categories(User $user): Collection;
+    public function categories(int $userid): Collection;
     /**
      * @return Collection
      */

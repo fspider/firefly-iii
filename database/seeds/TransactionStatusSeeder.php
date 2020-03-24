@@ -16,7 +16,7 @@ class TransactionStatusSeeder extends Seeder
             TransactionStatu::AWAITING_APPROVAL,
             TransactionStatu::AWAITING_PAYMENT,
             TransactionStatu::DECLINED,
-            TransactionStatu::SUCCESS,
+            TransactionStatu::PAID,
         ];
 
         foreach ($status as $statu) {

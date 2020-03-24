@@ -692,6 +692,14 @@ try {
             $breadcrumbs->push(trans('breadcrumbs.approve'), route('approve.index'));
         }
     );
+    // APPROVE
+    Breadcrumbs::register(
+        'approve.approves',
+        function (BreadcrumbsGenerator $breadcrumbs) {
+            $breadcrumbs->parent('approve.index');
+            $breadcrumbs->push(trans('breadcrumbs.approve'), route('approve.index'));
+        }
+    );
     
     // ACCOUNTANTS
     Breadcrumbs::register(

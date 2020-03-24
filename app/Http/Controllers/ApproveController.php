@@ -1,6 +1,9 @@
 <?php
 
 namespace FireflyIII\Http\Controllers;
+use FireflyIII\Helpers\Collector\GroupCollectorInterface;
+use FireflyIII\Repositories\Journal\JournalRepositoryInterface;
+use FireflyIII\Support\Http\Controllers\PeriodOverview;
 
 use FireflyIII\Exceptions\FireflyException;
 use FireflyIII\Repositories\User\UserRepositoryInterface;
@@ -21,8 +24,12 @@ use Log;
 
 class ApproveController extends Controller
 {
+    use PeriodOverview;
+
     /** @var UserRepositoryInterface */
     private $repository;
+    /** @var JournalRepositoryInterface */
+    private $journalRepository;
 
     /**
      * ApproveController constructor.
@@ -39,6 +46,7 @@ class ApproveController extends Controller
                 app('view')->share('title', (string)trans('firefly.approve'));
                 app('view')->share('mainTitleIcon', 'fa-fire');
                 $this->repository = app(UserRepositoryInterface::class);
+                $this->journalRepository = app(JournalRepositoryInterface::class);
 
                 return $next($request);
             }
@@ -57,9 +65,9 @@ class ApproveController extends Controller
         $userid = $user->id;
         $subTitle = (string)trans('firefly.approve_subtitle');
         $approveUsers = $this->repository->approveUsers($userid);
-        $categories = $this->repository->categories($user);
+        // $categories = $this->repository->categories($user);
         $status = $this->repository->transactionStatus();
-        return view('approve.index', compact('subTitle', 'approveUsers', 'categories', 'status'));
+        return view('approve.index', compact('subTitle', 'approveUsers', 'status'));
     }
 
     /**
@@ -89,12 +97,90 @@ class ApproveController extends Controller
      * @return mixed
      *
      */
-    public function approves(int $userid, int $categoryid, $statuid, $expenseid, Carbon $start, Carbon $end)
+    public function approves(Request $request, int $userid, int $categoryid, int $statuid, int $expenseid, Carbon $start = null, Carbon $end = null)
     {
+        // Render Main View
+        $user = auth()->user();
+        $par_userid = $user->id;
+        $subTitle = (string)trans('firefly.approve_subtitle');
+        $approveUsers = $this->repository->approveUsers($par_userid);
+        $categories = $this->repository->categories($userid);
+        $status = $this->repository->transactionStatus();
+        $expenses = $this->repository->expenses($userid);
+
+        // Render Table View
+        $objectType = 'withdrawal';
+        $subTitleIcon = config('firefly.transactionIconsByType.' . $objectType);
+        $types        = config('firefly.transactionTypesByType.' . $objectType);
+        $page         = (int)$request->get('page');
+        $pageSize     = (int)app('preferences')->get('listPageSize', 50)->data;
+        if (null === $start) {
+            $start = session('start');
+            $end   = session('end');
+        }
+        if (null === $end) {
+            $end = session('end'); // @codeCoverageIgnore
+        }
+        // return response()->json(
+        //     $end
+        // );
+
+        
+        [$start, $end] = $end < $start ? [$end, $start] : [$start, $end];
+        $path     = route('approve.approves', [$userid, $categoryid, $statuid, $expenseid, $start->format('Y-m-d'), $end->format('Y-m-d')]);
+        $startStr = $start->formatLocalized($this->monthAndDayFormat);
+        $endStr   = $end->formatLocalized($this->monthAndDayFormat);
+        $subTitle = (string)trans(sprintf('firefly.title_%s_between', $objectType), ['start' => $startStr, 'end' => $endStr]);
+
+        $firstJournal = $this->journalRepository->firstNull();
+        $startPeriod  = null === $firstJournal ? new Carbon : $firstJournal->date;
+        $endPeriod    = clone $end;
+        $periods      = $this->getTransactionPeriodOverview($objectType, $startPeriod, $endPeriod);
+
+        /** @var GroupCollectorInterface $collector */
+        $collector = app(GroupCollectorInterface::class);
+
+        $collector->setMyUser($userid, $approveUsers)
+                  ->setRange($start, $end)
+                  ->setTypes($types)
+                  ->setLimit($pageSize)
+                  ->setPage($page)
+                  ->withBudgetInformation()
+                  ->withCategoryInformation()
+                  ->withAccountInformation()
+                  ->withAttachmentInformation();
+        if($categoryid != 0)
+            $collector->setCategoryId($categoryid);
+        if($expenseid != 0)
+            $collector->setAccountId($expenseid);
+        if($statuid !=0)
+        $collector->setStatusId($statuid);
+
+        $groups = $collector->getPaginatedGroups();
+        $groups->setPath($path);
+
+
+        $status = $this->repository->transactionStatus();
+
+        return view(
+            'approve.index', 
+            compact('subTitle', 'approveUsers', 'categories', 'status', 'expenses', 
+                    'subTitle', 'objectType', 'subTitleIcon', 'groups', 'periods', 'start', 'end',
+                    'userid', 'categoryid', 'statuid', 'expenseid'
+            )
+        );
+
+        // return response()->json(
+        //     view(
+        //         'list.approves',
+        //         compact(, 'status')
+        //     )->render()
+        // );
+
         // $result = $this->repository->expenses($userid);
         // return response()->json($result->toArray());
         // return response()->json('abscd');
-        return response()->json(view('list.approves'/*, compact('subTitle', 'approveUsers', 'categories', 'status')*/)->render());
+        // return response()->json(view('list.approves'/*, compact('subTitle', 'approveUsers', 'categories', 'status')*/)->render());
     }
 
     /**

@@ -14,9 +14,9 @@ class SpiderModifyTransactionsTable extends Migration
     public function up()
     {
         Schema::table(
-            'transactions',
+            'transaction_journals',
             function (Blueprint $table) {
-                $table->smallInteger('status', false, true)->default(0);
+                $table->smallInteger('status', false, true)->default(1);
                 $table->date('date_status')->nullable();
             }
         );
@@ -30,7 +30,7 @@ class SpiderModifyTransactionsTable extends Migration
     public function down()
     {
         Schema::table(
-            'transactions',
+            'transaction_journals',
             function (Blueprint $table) {
                 $table->dropColumn('status');
                 $table->dropColumn('date_status');
