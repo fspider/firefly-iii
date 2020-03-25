@@ -71,6 +71,7 @@ trait UserNavigation
         if (null === $journal) {
             return false;
         }
+        if ($journal->status == 2 || $journal->status == 4) return false;
         $type     = $journal->transactionType->type;
         $editable = [TransactionType::WITHDRAWAL, TransactionType::TRANSFER, TransactionType::DEPOSIT, TransactionType::RECONCILIATION];
 
@@ -84,6 +85,7 @@ trait UserNavigation
      */
     protected function redirectGroupToAccount(TransactionGroup $group)
     {
+        return redirect(route('index'));
         /** @var TransactionJournal $journal */
         $journal = $group->transactionJournals()->first();
         if (null === $journal) {

@@ -88,6 +88,9 @@ class ShowController extends Controller
             throw new FireflyException('This transaction is broken :(.');
         }
 
+        $editable = true;
+        if ($first->status == 2 || $first->status == 4) $editable = false;
+
         $type     = (string)trans(sprintf('firefly.%s',$first->transactionType->type));
         $title    = 1 === $splits ? $first->description : $transactionGroup->title;
         $subTitle = sprintf('%s: "%s"', $type, $title);
@@ -115,7 +118,7 @@ class ShowController extends Controller
         return view(
             'transactions.show', compact(
                                    'transactionGroup', 'amounts', 'first', 'type', 'subTitle', 'splits', 'groupArray',
-                                   'events', 'attachments', 'links'
+                                   'events', 'attachments', 'links', 'editable'
                                )
         );
     }
