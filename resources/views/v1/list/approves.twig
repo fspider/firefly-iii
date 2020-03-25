@@ -106,15 +106,16 @@
                         <i class="fa fa-check"></i>
                     {% endif %}
                     {% if group.count == 1 %}
-                        <a href="{{ route('transactions.show', [group.id]) }}" title="{{ transaction.description }}">
+                        {# <a href="{{ route('transactions.show', [group.id]) }}" title="{{ transaction.description }}"> #}
                         {% endif %}
-                        {{ transaction.description }}
+                        {# {{ transaction.description }} #}
+                        {{ transaction.transaction_journal_id }}
                         {% if group.count == 1 %}
-                        </a>
+                        {# </a> #}
                     {% endif %}
                 </td>
                 {# Employee #}
-                <td style=" {{ style|raw }}">Employee</td>
+                <td style=" {{ style|raw }}">{{transaction.email}}</td>
                 {# Date #}
                 <td style=" {{ style|raw }}">
                     {{ transaction.date.formatLocalized(monthAndDayFormat) }}
@@ -128,7 +129,8 @@
                 </td>
                 {# Source Account #}
                 <td style=" {{ style|raw }}">
-                    <a href="{{ route('accounts.show', [transaction.destination_account_id|default(1)]) }}" title="{{ transaction.destination_account_iban|default(transaction.destination_account_name) }}">{{ transaction.destination_account_name }}</a>
+                    {# <a href="{{ route('accounts.show', [transaction.destination_account_id|default(1)]) }}" title="{{ transaction.destination_account_iban|default(transaction.destination_account_name) }}">{{ transaction.destination_account_name }}</a> #}
+                    {{ transaction.destination_account_name }}
                 </td>
                 {# Dest Account #}
                 {# <td style=" {{ style|raw }}">
@@ -136,13 +138,14 @@
                 </td> #}
                 <td style=" {{ style|raw }}">
                     {% if transaction.category_id %}
-                        <a href="{{ route('categories.show', [transaction.category_id]) }}" title="{{ transaction.category_name }}">{{ transaction.category_name }}</a>
+                        {# <a href="{{ route('categories.show', [transaction.category_id]) }}" title="{{ transaction.category_name }}">{{ transaction.category_name }}</a> #}
+                        {{ transaction.category_name }}
                     {% endif %}
                 </td>
                 <td style=" {{ style|raw }}">
                     {% if transaction.attachments|length > 0 %}
                         <i class="fa fa-paperclip"></i>
-                        <a href={{ route('attachments.view', transaction.attachment_id) }}>{{transaction.filename}}</a>
+                        <a href={{ route('attachments.review', transaction.attachment_id) }}>{{transaction.filename}}</a>
                     {% endif %}
                 </td>
 

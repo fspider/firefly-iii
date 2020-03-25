@@ -171,6 +171,7 @@ Route::group(
 Route::group(
     ['middleware' => 'user-full-auth', 'namespace' => 'FireflyIII\Http\Controllers', 'prefix' => 'approve', 'as' => 'approve.'], static function () {
     Route::get('', ['uses' => 'ApproveController@index', 'as' => 'index']);
+    
     Route::get('expenses/{userid}', ['uses' => 'ApproveController@expenses', 'as' => 'expenses']);
     Route::get('approves/{userid}/{categoryid}/{statuid}/{expenseid}/{start_date}/{end_date}', ['uses' => 'ApproveController@approves', 'as' => 'approves']);
     Route::get('actions/{tranid}/{statuid}', ['uses' => 'ApproveController@actions', 'as' => 'actions']);
@@ -214,7 +215,14 @@ Route::group(
 /**
  * Attachment Controller
  */
+
 Route::group(
+    ['middleware' => 'accountant-auth', 'namespace' => 'FireflyIII\Http\Controllers', 'prefix' => 'attachments', 'as' => 'attachments.'], static function () {
+    Route::get('review/{attachmentid}', ['uses' => 'AttachmentController@review', 'as' => 'review']);
+    }
+);
+
+ Route::group(
     ['middleware' => 'user-full-auth', 'namespace' => 'FireflyIII\Http\Controllers', 'prefix' => 'attachments', 'as' => 'attachments.'], static function () {
     Route::get('', ['uses' => 'AttachmentController@index', 'as' => 'index']);
     Route::get('edit/{attachment}', ['uses' => 'AttachmentController@edit', 'as' => 'edit']);

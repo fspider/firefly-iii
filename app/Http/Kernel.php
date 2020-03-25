@@ -24,6 +24,7 @@ namespace FireflyIII\Http;
 
 use FireflyIII\Http\Middleware\Authenticate;
 use FireflyIII\Http\Middleware\Binder;
+use FireflyIII\Http\Middleware\Binder2;
 use FireflyIII\Http\Middleware\EncryptCookies;
 use FireflyIII\Http\Middleware\InstallationId;
 use FireflyIII\Http\Middleware\Installer;
@@ -144,6 +145,20 @@ class Kernel extends HttpKernel
                 Authenticate::class,
             ],
 
+            'accountant-auth'       => [
+                // Sandstorm::class,
+                // EncryptCookies::class,
+                // AddQueuedCookiesToResponse::class,
+                // StartFireflySession::class,
+                // ShareErrorsFromSession::class,
+                // VerifyCsrfToken::class,
+                // Authenticate::class,
+                // MFAMiddleware::class,
+                // Range::class,
+                Binder2::class,
+                // CreateFreshApiToken::class,
+                // InterestingMessage::class,
+            ],
             // MUST be logged in
             // MUST have 2fa
             // MUST be confirmed.
@@ -187,6 +202,7 @@ class Kernel extends HttpKernel
                 //'throttle:60,1',
                 'bindings',
             ],
+
         ];
     /**
      * The priority-sorted list of middleware.

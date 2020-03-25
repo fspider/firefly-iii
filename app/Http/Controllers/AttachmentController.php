@@ -29,7 +29,7 @@ use FireflyIII\Repositories\Attachment\AttachmentRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
-
+use Log;
 /**
  * Class AttachmentController.
  *
@@ -239,5 +239,44 @@ class AttachmentController extends Controller
             );
         }
         throw new FireflyException('Could not find the indicated attachment. The file is no longer there.');
+    }
+
+    /**
+     * View attachment in browser.
+     *
+     * @param Attachment $attachment
+     *
+     * @return LaravelResponse
+     * @throws FireflyException
+     */
+    public function review(Request $request, int $attachmentid): LaravelResponse
+    {
+        $attachment = Attachment::find($attachmentid);
+        $content = $this->repository->getContent($attachment);
+
+        // prevent XSS by adding a new secure header.
+        $csp = [
+            "default-src 'none'",
+            "object-src 'none'",
+            "script-src 'none'",
+            "style-src 'self' 'unsafe-inline'",
+            "base-uri 'none'",
+            "font-src 'none'",
+            "connect-src 'none'",
+            "img-src 'self'",
+            "manifest-src 'none'",
+        ];
+
+        return response()->make(
+            $content, 200, [
+                        'Content-Security-Policy' => implode('; ', $csp),
+                        'Content-Type'        => $attachment->mime,
+                        'Content-Disposition' => 'inline; filename="' . $attachment->filename . '"',
+                    ]
+        );
+
+
+        Log::error('asfdasdf');
+        Log::error($attachment);
     }
 }

@@ -148,6 +148,9 @@ class GroupCollector implements GroupCollectorInterface
 
             # destination account info (always present)
             'destination.account_id as destination_account_id',
+
+            # users
+            'users.email as email',
         ];
     }
 
@@ -1199,6 +1202,7 @@ class GroupCollector implements GroupCollectorInterface
                 'transaction_status', 'transaction_status.id', 'transaction_journals.status'
             )
             // left join transaction type.
+            ->leftJoin('users', 'users.id', 'transaction_journals.user_id')
             ->leftJoin('transaction_types', 'transaction_types.id', '=', 'transaction_journals.transaction_type_id')
             ->leftJoin('transaction_currencies as currency', 'currency.id', '=', 'source.transaction_currency_id')
             ->leftJoin('transaction_currencies as foreign_currency', 'foreign_currency.id', '=', 'source.foreign_currency_id')
@@ -1345,6 +1349,7 @@ class GroupCollector implements GroupCollectorInterface
             )
             // left join transaction type.
             ->whereIn('transaction_journals.user_id', $users->pluck('id')->toArray())
+            ->leftJoin('users', 'users.id', 'transaction_journals.user_id')
             ->leftJoin('transaction_types', 'transaction_types.id', '=', 'transaction_journals.transaction_type_id')
             ->leftJoin('transaction_currencies as currency', 'currency.id', '=', 'source.transaction_currency_id')
             ->leftJoin('transaction_currencies as foreign_currency', 'foreign_currency.id', '=', 'source.foreign_currency_id')
