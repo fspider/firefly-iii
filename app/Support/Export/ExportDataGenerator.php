@@ -45,9 +45,10 @@ use FireflyIII\Repositories\PiggyBank\PiggyBankRepositoryInterface;
 use FireflyIII\Repositories\Recurring\RecurringRepositoryInterface;
 use FireflyIII\Repositories\Rule\RuleRepositoryInterface;
 use FireflyIII\Repositories\Tag\TagRepositoryInterface;
+use FireflyIII\Repositories\User\UserRepositoryInterface;
 use FireflyIII\User;
 use League\Csv\Writer;
-
+use Log;
 /**
  * Class ExportDataGenerator
  */
@@ -704,5 +705,66 @@ class ExportDataGenerator
 
         return $csv->getContent(); //returns the CSV document as a string
     }
+
+    /**
+     * @return string
+     */
+    public function exportSubTransactions($userid, $approveUsers, $categoryid, $statuid, $expenseid, $start, $end): array
+    {
+        // TODO better place for keys?
+        $header    = ['user_id', 'user_email', 'group_id', 'journal_id', 'created_at', 'updated_at', 'group_title', 'type', 'amount', 'foreign_amount', 'currency_code',
+                      'foreign_currency_code', 'description', 'date', 'source_name', 'source_iban', 'source_type', 'destination_name', 'destination_iban',
+                      'destination_type', 'reconciled', 'category', 'budget', 'bill', 'tags',];
+        $collector = app(GroupCollectorInterface::class);
+        $collector->setMyUser($userid, $approveUsers);
+        $collector->setRange($start, $end)->withAccountInformation()->withCategoryInformation()->withBillInformation()
+                  ->withBudgetInformation();
+        $journals = $collector->getExtractedJournals();
+
+        $records = [];
+        /** @var array $journal */
+        foreach ($journals as $journal) {
+            $records[] = [
+                $journal['user_id'],
+                $journal['email'],
+                $journal['transaction_group_id'],
+                $journal['transaction_journal_id'],
+                $journal['created_at']->toAtomString(),
+                $journal['updated_at']->toAtomString(),
+                $journal['transaction_group_title'],
+                $journal['transaction_type_type'],
+                $journal['amount'],
+                $journal['foreign_amount'],
+                $journal['currency_code'],
+                $journal['foreign_currency_code'],
+                $journal['description'],
+                $journal['date']->toAtomString(),
+                $journal['source_account_name'],
+                $journal['source_account_iban'],
+                $journal['source_account_type'],
+                $journal['destination_account_name'],
+                $journal['destination_account_iban'],
+                $journal['destination_account_type'],
+                $journal['reconciled'],
+                $journal['category_name'],
+                $journal['budget_name'],
+                $journal['bill_name'],
+                implode(',', $journal['tags']),
+            ];
+        }
+
+        //load the CSV document from a string
+        $csv = Writer::createFromString('');
+
+        //insert the header
+        $csv->insertOne($header);
+
+        //insert all the records
+        $csv->insertAll($records);
+        $return = [];
+        $return['transactions'] = $csv->getContent(); //returns the CSV document as a string
+        return $return;
+    }
+
 
 }

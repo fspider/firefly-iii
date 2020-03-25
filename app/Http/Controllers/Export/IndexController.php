@@ -26,15 +26,18 @@ use Carbon\Carbon;
 use FireflyIII\Http\Controllers\Controller;
 use FireflyIII\Http\Middleware\IsDemoUser;
 use FireflyIII\Repositories\Journal\JournalRepositoryInterface;
+use FireflyIII\Repositories\User\UserRepositoryInterface;
 use FireflyIII\Support\Export\ExportDataGenerator;
 use Illuminate\Http\Response as LaravelResponse;
-
+use Log;
 /**
  * Class IndexController
  */
 class IndexController extends Controller
 {
 
+    /** @var UserRepositoryInterface */
+    private $repository;
     /** @var JournalRepositoryInterface */
     private $journalRepository;
 
@@ -52,6 +55,7 @@ class IndexController extends Controller
             function ($request, $next) {
                 app('view')->share('mainTitleIcon', 'fa-life-bouy');
                 app('view')->share('title', (string)trans('firefly.export_data_title'));
+                $this->repository = app(UserRepositoryInterface::class);
                 $this->journalRepository = app(JournalRepositoryInterface::class);
                 $this->middleware(IsDemoUser::class)->except(['index']);
 
@@ -101,6 +105,40 @@ class IndexController extends Controller
         return $response;
     }
 
+
+    /**
+     * @return LaravelResponse
+     * @throws \League\Csv\CannotInsertRecord
+     */
+    public function subexport(int $userid=0, int $categoryid=0, int $statuid=0, int $expenseid=0, Carbon $start = null, Carbon $end = null): LaravelResponse
+    {
+        $par_userid = auth()->user()->id;
+        $approveUsers = $this->repository->approveUsers($par_userid);
+
+        /** @var ExportDataGenerator $generator */
+        $generator = app(ExportDataGenerator::class);
+        $generator->setUser(auth()->user());
+        $result = $generator->exportSubTransactions($userid, $approveUsers, $categoryid, $statuid, $expenseid, $start, $end);
+
+        $name   = sprintf('%s_transaction_export.csv', date('Y_m_d'));
+        $quoted = sprintf('"%s"', addcslashes($name, '"\\'));
+        // headers for CSV file.
+        /** @var LaravelResponse $response */
+        Log::error($result);
+        $response = response($result['transactions'], 200);
+        $response
+            ->header('Content-Description', 'File Transfer')
+            ->header('Content-Type', 'text/x-csv')
+            ->header('Content-Disposition', 'attachment; filename=' . $quoted)
+            //->header('Content-Transfer-Encoding', 'binary')
+            ->header('Connection', 'Keep-Alive')
+            ->header('Expires', '0')
+            ->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+            ->header('Pragma', 'public')
+            ->header('Content-Length', strlen($result['transactions']));
+        // return CSV file made from 'transactions' array.
+        return $response;
+    }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

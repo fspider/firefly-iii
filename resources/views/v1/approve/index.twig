@@ -93,6 +93,26 @@
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ 'export_data_main_title'|_ }}</h3>
+                </div>
+                <div class="box-body">
+                    {# <p>
+                        {{ 'export_data_expl'|_ }}
+                    </p> #}
+					<ul>
+                        <li><i class="fa fa-fw fa-download"></i>
+						<a  id="exportTransactions" style="cursor: pointer;" title="{{ 'export_data_selected_transactions'|_ }}">
+						{{ 'export_data_selected_transactions'|_ }}
+						</a></li>
+						{# <a href="{{ route('export.subexport') }}" title="{{ 'export_data_selected_transactions'|_ }}">{{ 'export_data_selected_transactions'|_ }}</a></li> #}
+                    </ul>
+                    {# <p>
+                        {{ 'export_data_advanced_expl'|_ }}
+                    </p> #}
+                </div>
+            </div>
 		</div>
 	</form>
 
@@ -107,12 +127,13 @@
 			<div class="box-body no-padding" id="tableApproves">
 				{# actual list #}
 				{# {% include 'list.groups' %} #}
+				{% include 'list.approves' %}
+
 			</div>
 		</div>
 	</div>
 </div>
 
-{% include 'list.approves' %}
 
 {% endblock %}
 {# {% block styles %}

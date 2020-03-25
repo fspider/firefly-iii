@@ -550,7 +550,7 @@ Route::group(
     // index
     Route::get('', ['uses' => 'Export\IndexController@index', 'as' => 'index']);
     Route::get('export', ['uses' => 'Export\IndexController@export', 'as' => 'export']);
-
+    Route::get('subexport/{userid}/{categoryid}/{statuid}/{expenseid}/{start_date}/{end_date}', ['uses' => 'Export\IndexController@subexport', 'as' => 'subexport']);
 });
 /**
  * Import Controller

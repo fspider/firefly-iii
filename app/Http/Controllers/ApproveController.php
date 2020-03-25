@@ -94,11 +94,6 @@ class ApproveController extends Controller
         if (null === $end) {
             $end = session('end'); // @codeCoverageIgnore
         }
-        // return response()->json(
-        //     $end
-        // );
-
-        
         [$start, $end] = $end < $start ? [$end, $start] : [$start, $end];
         $path     = route('approve.approves', [$userid, $categoryid, $statuid, $expenseid, $start->format('Y-m-d'), $end->format('Y-m-d')]);
         $startStr = $start->formatLocalized($this->monthAndDayFormat);

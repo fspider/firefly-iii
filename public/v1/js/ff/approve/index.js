@@ -53,8 +53,22 @@ $(function () {
     $('#inputDateRange').on('change', uiChanged);
     $('.statusAction').on('click', statusChanged);
 
+    $('#exportTransactions').on('click', exportTransactions);
+    
     // getExpenses();
 });
+
+function exportTransactions() { 
+    console.log('Exporting Transactions');
+    var approveUser = $('#inputApproveUser').val();
+    var category = $('#inputCategory').val();
+    var statu = $('#inputStatu').val();
+    var expense = $('#inputExpense').val();
+    var picker = $('#inputDateRange').data('daterangepicker');
+    var stDate = moment(picker.startDate).format("YYYYMMDD");
+    var edDate = moment(picker.endDate).format("YYYYMMDD");
+    window.location.replace('export/subexport/' + approveUser + '/' + category + '/' + statu + '/' + expense + '/' + stDate + '/' + edDate);
+}
 
 function getExpenses() {
     "use strict";
