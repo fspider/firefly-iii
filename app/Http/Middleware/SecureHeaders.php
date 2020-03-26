@@ -59,6 +59,7 @@ class SecureHeaders
             "connect-src 'self'",
             sprintf("img-src 'self' data: https://api.tiles.mapbox.com %s", $trackingScriptSrc),
             "manifest-src 'self'",
+            "frame-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
         ];
 
         $route = $request->route();
@@ -85,7 +86,7 @@ class SecureHeaders
         $disableFrameHeader = config('firefly.disable_frame_header');
         $disableCSP         = config('firefly.disable_csp_header');
         if (false === $disableFrameHeader) {
-            $response->header('X-Frame-Options', 'deny');
+            // $response->header('X-Frame-Options', 'deny');
         }
         if (false === $disableCSP && !$response->headers->has('Content-Security-Policy')) {
             $response->header('Content-Security-Policy', implode('; ', $csp));

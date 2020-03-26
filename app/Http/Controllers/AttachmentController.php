@@ -258,13 +258,14 @@ class AttachmentController extends Controller
         $csp = [
             "default-src 'none'",
             "object-src 'none'",
-            "script-src 'none'",
+            "script-src 'self' 'unsafe-inline'",
             "style-src 'self' 'unsafe-inline'",
             "base-uri 'none'",
             "font-src 'none'",
             "connect-src 'none'",
             "img-src 'self'",
             "manifest-src 'none'",
+            "frame-src 'self' http://* 'unsafe-inline' 'unsafe-eval'",
         ];
 
         return response()->make(
