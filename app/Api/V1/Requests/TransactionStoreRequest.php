@@ -193,6 +193,9 @@ class TransactionStoreRequest extends Request
                 // the group must have a description if > 1 journal.
                 $this->validateGroupDescription($validator);
 
+                // the number of transactions of this month should not over limit.
+                $this->validateTransactionLimit($validator);
+
             }
         );
     }

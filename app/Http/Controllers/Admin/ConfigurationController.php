@@ -72,10 +72,10 @@ class ConfigurationController extends Controller
         $singleUserMode = app('fireflyconfig')->get('single_user_mode', config('firefly.configuration.single_user_mode'))->data;
         $isDemoSite     = app('fireflyconfig')->get('is_demo_site', config('firefly.configuration.is_demo_site'))->data;
         $siteOwner      = config('firefly.site_owner');
-
+        $transactionLimit = app('fireflyconfig')->get('transactionLimit', config('firefly.configuration.transactionLimit'))->data;
         return view(
             'admin.configuration.index',
-            compact('subTitle', 'subTitleIcon', 'singleUserMode', 'isDemoSite', 'siteOwner')
+            compact('subTitle', 'subTitleIcon', 'singleUserMode', 'isDemoSite', 'siteOwner', 'transactionLimit')
         );
     }
 
@@ -96,6 +96,7 @@ class ConfigurationController extends Controller
         // store config values
         app('fireflyconfig')->set('single_user_mode', $data['single_user_mode']);
         app('fireflyconfig')->set('is_demo_site', $data['is_demo_site']);
+        app('fireflyconfig')->set('transactionLimit', $data['transactionLimit']);
 
         // flash message
         session()->flash('success', (string)trans('firefly.configuration_updated'));

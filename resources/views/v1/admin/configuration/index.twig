@@ -55,6 +55,18 @@
                 </div>
             </div>
             #}
+            {# transaction limit settings column B #}
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ 'transaction_limit'|_ }}</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ ExpandedForm.integer('transactionLimit', transactionLimit,{'label' : 'transaction_limit'|_}) }}
+                        {# {{ ExpandedForm.integer('listPageSize',listPageSize,{'label' : 'list_page_size_label'|_}) }} #}
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">

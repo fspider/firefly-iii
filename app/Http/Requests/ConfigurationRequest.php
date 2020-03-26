@@ -50,6 +50,7 @@ class ConfigurationRequest extends Request
         return [
             'single_user_mode' => $this->boolean('single_user_mode'),
             'is_demo_site'     => $this->boolean('is_demo_site'),
+            'transactionLimit'     => $this->integer('transactionLimit'),
         ];
     }
 
@@ -64,6 +65,7 @@ class ConfigurationRequest extends Request
         $rules = [
             'single_user_mode' => 'between:0,1|numeric',
             'is_demo_site'     => 'between:0,1|numeric',
+            'transactionLimit' => 'between:0,10000|numeric',
         ];
 
         return $rules;

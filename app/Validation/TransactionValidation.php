@@ -28,12 +28,31 @@ use FireflyIII\Models\TransactionGroup;
 use FireflyIII\Models\TransactionJournal;
 use Illuminate\Validation\Validator;
 use Log;
-
+use Carbon\Carbon;
 /**
  * Trait TransactionValidation
  */
 trait TransactionValidation
 {
+
+    /**
+     * Validates the given account information. Switches on given transaction type.
+     *
+     * @param Validator $validator
+     */
+    public function validateTransactionLimit(Validator $validator): void
+    {
+        $transactionLimit = app('fireflyconfig')->get('transactionLimit', config('firefly.configuration.transactionLimit'))->data;
+        $today = Carbon::today();
+        $transactionsThisMonth = TransactionJournal::whereDate('date', '>=', $today->startOfMonth())
+        ->whereDate('date', '<=', $today->endOfMonth())->count();
+        // whereBetween('date', [$today->startOfMonth(), $today->endOfMonth()])->count();
+        Log::error($transactionsThisMonth);
+        if($transactionsThisMonth > $transactionLimit) {
+            $validator->errors()->add('transactions.0.description', (string)trans('validation.transaction_limit'));
+        }        
+    }
+
 
     /**
      * Validates the given account information. Switches on given transaction type.

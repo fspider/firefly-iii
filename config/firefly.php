@@ -131,6 +131,7 @@ return [
     'configuration' => [
         'single_user_mode' => true,
         'is_demo_site'     => false,
+        'transactionLimit' => 100,
     ],
     'feature_flags' => [
         'export' => true,
