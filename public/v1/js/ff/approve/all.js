@@ -69,7 +69,7 @@ function readCookie(name) {
 
 $(function () {
     "use strict";
-    $('#attach').click(showAttach);
+    $('.attach').click(showAttach);
 });
 
 function showAttach(e) {
@@ -77,6 +77,7 @@ function showAttach(e) {
     var target = $(e.target);
     var route = target.data('route');
     console.log(route);
+
     // $('#attachBody').html('<i class="fa fa-refresh fa-spin"></i>');
     // $('#attachModal').modal('show');
     // $('#attachTitle').html(helpPageTitle);
@@ -84,16 +85,17 @@ function showAttach(e) {
     w = screen.width - 200; h = screen.height - 200;
     t = 0;
     l = (screen.width - w) / 2;
-    window.open(route, '로동신문', 'width=' + w + ',height=' + h + ',top=' + t + ',left=' + l + ',scrollbars=yes,menubar=no,directories=no,location=no,status=0,resizable=yes');
-    // window.open(route);
-
+    window.open(route, 'attachment', 'width=' + w + ',height=' + h + ',top=' + t + ',left=' + l + ',scrollbars=yes,menubar=no,directories=no,location=no,status=0,resizable=yes');
     return;
-    $.get(route).done(function (data) {
-        console.log(data.length);
-        $('#attachBody').html(data);
+
         // $('#iframeBody').attr('src', data);
-    }).fail(function () {
-    });
+
+    // $.get(route).done(function (data) {
+    //     console.log(data.length);
+    //     $('#attachBody').html(data);
+    //     // $('#iframeBody').attr('src', data);
+    // }).fail(function () {
+    // });
     // $('#reenableGuidance').unbind('click').click(function () {
     //     enableGuidance(route);
     //     return false;

@@ -146,9 +146,13 @@
                     {% if transaction.attachments|length > 0 %}
                         <i class="fa fa-paperclip"></i>
                         {# <a href={{ route('attachments.review', transaction.attachment_id) }} target="_blank">{{'view_attachment'|_}}</a> #}
+<a class="attach" style="cursor: pointer;" data-route="{{ route('attachments.review', transaction.attachment_id) }}">
+	{{'view_attachment'|_}}
+</a>
 
-                        <a href="#" id="attach" data-route="{{ route('attachments.review', transaction.attachment_id) }}" data-target="#attachModal" >
-                        {{'view_attachment'|_}}</a>
+
+                        {# <a href="#" id="attach" data-route="{{ route('attachments.review', transaction.attachment_id) }}" data-target="#attachModal" >
+                        {{'view_attachment'|_}}</a> #}
 {# <a href="javascript:article open('{{ route('attachments.review', transaction.attachment_id) }}')">{{'view_attachment'|_}}</a> #}
 
 
