@@ -145,7 +145,13 @@
                 <td style=" {{ style|raw }}">
                     {% if transaction.attachments|length > 0 %}
                         <i class="fa fa-paperclip"></i>
-                        <a href={{ route('attachments.review', transaction.attachment_id) }} target="_blank">{{'view_attachment'|_}}</a>
+                        {# <a href={{ route('attachments.review', transaction.attachment_id) }} target="_blank">{{'view_attachment'|_}}</a> #}
+
+                        <a href="#" id="attach" data-route="{{ route('attachments.review', transaction.attachment_id) }}" data-target="#attachModal" >
+                        {{'view_attachment'|_}}</a>
+{# <a href="javascript:article open('{{ route('attachments.review', transaction.attachment_id) }}')">{{'view_attachment'|_}}</a> #}
+
+
                     {% endif %}
                 </td>
 
@@ -243,5 +249,31 @@
         {% endif %}
     </tr>
     </tfoot>
-
 </table>
+
+<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog"></div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="attachModal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			{# <div class="modal-header">
+				<h4 class="modal-title" id="attachTitle">&nbsp;</h4>
+			</div> #}
+			<div class="modal-body" id="attachBody">
+            </div>
+            <iframe id="iframeBody" width="800" height="800"></iframe>
+
+			{# <div class="modal-footer">
+				<small class="pull-left">
+					{{ 'need_more_help'|_ }}
+				</small>
+				<br/>
+				<small class="pull-left">
+					{{ trans('firefly.reenable_intro_text')|raw }}
+				</small>
+				<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|_ }}</button>
+			</div> #}
+		</div>
+	</div>
+</div>
+

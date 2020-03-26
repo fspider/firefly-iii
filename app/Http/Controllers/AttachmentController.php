@@ -274,9 +274,5 @@ class AttachmentController extends Controller
                         'Content-Disposition' => 'inline; filename="' . $attachment->filename . '"',
                     ]
         );
-
-
-        Log::error('asfdasdf');
-        Log::error($attachment);
     }
 }
