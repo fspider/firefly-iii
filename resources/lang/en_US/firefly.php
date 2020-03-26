@@ -649,6 +649,7 @@ return [
     'attachment_updated'            => 'Updated attachment ":name"',
     'upload_max_file_size'          => 'Maximum file size: :size',
     'list_all_attachments'          => 'List of all attachments',
+    'view_attachment'               => 'view attachment',
 
     // transaction index
     'title_expenses'                => 'Expenses',

@@ -1388,7 +1388,7 @@ class GroupCollector implements GroupCollectorInterface
     public function setAccountId(int $accountId): GroupCollectorInterface
     {
         $this->withAccountInformation();
-        $this->query->where('destination.account_id', $accountId);
+        $this->query->where('source.account_id', $accountId);
         return $this;
     }    
 

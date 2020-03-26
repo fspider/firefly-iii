@@ -13,7 +13,7 @@
             </td> #}
         </tr>
 		<tr>
-			<th data-defaultsign="_19" class="hidden-xs" colspan="2">{{trans('list.id')}}</th>
+			<th data-defaultsign="_19" class="hidden-xs" colspan="1">{{trans('list.id')}}</th>
 			<th data-defaultsign="az">{{ trans('list.employee') }}</th>
 			<th data-defaultsign="month" class="hidden-xs">{{ trans('list.date') }}</th>
 			<th data-defaultsign="_19" class="hidden-xs">{{trans('list.amount')}}</th>
@@ -97,9 +97,9 @@
             {% endif %}
             <tr data-date="{{ transaction.date.format('Y-m-d') }}">
                 {# ICON #}
-                <td style=" {{ style|raw }}">
+                {# <td style=" {{ style|raw }}">
                     <i class="fa fa-long-arrow-left fa-fw" title="{{ trans('firefly.Withdrawal') }}"></i>
-                </td>
+                </td> #}
                 {# Status & ID #}
                 <td style=" {{ style|raw }}">
                     {% if transaction.reconciled %}
@@ -130,7 +130,7 @@
                 {# Source Account #}
                 <td style=" {{ style|raw }}">
                     {# <a href="{{ route('accounts.show', [transaction.destination_account_id|default(1)]) }}" title="{{ transaction.destination_account_iban|default(transaction.destination_account_name) }}">{{ transaction.destination_account_name }}</a> #}
-                    {{ transaction.destination_account_name }}
+                    {{ transaction.source_account_name }}
                 </td>
                 {# Dest Account #}
                 {# <td style=" {{ style|raw }}">
@@ -145,7 +145,7 @@
                 <td style=" {{ style|raw }}">
                     {% if transaction.attachments|length > 0 %}
                         <i class="fa fa-paperclip"></i>
-                        <a href={{ route('attachments.review', transaction.attachment_id) }}>{{transaction.filename}}</a>
+                        <a href={{ route('attachments.review', transaction.attachment_id) }} target="_blank">{{'view_attachment'|_}}</a>
                     {% endif %}
                 </td>
 

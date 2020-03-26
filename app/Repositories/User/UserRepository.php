@@ -91,9 +91,10 @@ class UserRepository implements UserRepositoryInterface
     public function expenses(int $userid): Collection
     {
         if($userid == 0) return collect();
-        return User::find($userid)->accounts()->where('account_type_id', 4)->get();
+        return User::find($userid)->accounts()->where('account_type_id', '!=', 4)->get();
         // return User::find($userid)->accounts()->where('account_type_id', 4)->get('account.*');
     }
+
 
     /**
      * @return Collection

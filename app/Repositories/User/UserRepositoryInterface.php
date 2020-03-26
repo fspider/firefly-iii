@@ -54,7 +54,6 @@ interface UserRepositoryInterface
      * @return Collection
      */
     public function expenses(int $userid): Collection;
-
     /**
      * @return Collection
      */

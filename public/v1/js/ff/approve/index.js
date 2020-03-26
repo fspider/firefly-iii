@@ -2,6 +2,13 @@
 $(function () {
     "use strict";
 
+    document.getElementById("approve-form").onkeypress = function (e) {
+        var key = e.charCode || e.keyCode || 0;
+        if (key == 13) {
+            e.preventDefault();
+        }
+    }
+
     if ($('#inputDateRange').length > 0) {
 
         $('#inputDateRange').daterangepicker(
