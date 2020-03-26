@@ -36,7 +36,7 @@ trait TransactionValidation
 {
 
     /**
-     * Validates the given account information. Switches on given transaction type.
+     * Validates the transactionLimit of this month.
      *
      * @param Validator $validator
      */
@@ -44,10 +44,9 @@ trait TransactionValidation
     {
         $transactionLimit = app('fireflyconfig')->get('transactionLimit', config('firefly.configuration.transactionLimit'))->data;
         $today = Carbon::today();
-        $transactionsThisMonth = TransactionJournal::whereDate('date', '>=', $today->startOfMonth())
-        ->whereDate('date', '<=', $today->endOfMonth())->count();
-        // whereBetween('date', [$today->startOfMonth(), $today->endOfMonth()])->count();
-        Log::error($transactionsThisMonth);
+        $transactionsThisMonth = TransactionJournal::where('user_id', auth()->user()->id)
+                                ->whereDate('date', '>=', $today->startOfMonth())
+                                ->whereDate('date', '<=', $today->endOfMonth())->count();
         if($transactionsThisMonth > $transactionLimit) {
             $validator->errors()->add('transactions.0.description', (string)trans('validation.transaction_limit'));
         }        
