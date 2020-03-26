@@ -79,7 +79,7 @@ function showAttach(e) {
     console.log(route);
 
     // $('#attachBody').html('<i class="fa fa-refresh fa-spin"></i>');
-    $('#attachModal').modal('show');
+
     // $('#attachTitle').html(helpPageTitle);
     var t, l, w, h;
     w = screen.width - 200; h = screen.height - 200;
@@ -87,9 +87,10 @@ function showAttach(e) {
     l = (screen.width - w) / 2;
     // window.open(route, 'attachment', 'width=' + w + ',height=' + h + ',top=' + t + ',left=' + l + ',scrollbars=yes,menubar=no,directories=no,location=no,status=0,resizable=yes');
     // return;
-
+    $('.modal-dialog').attr('style', 'width:'+w+'px; important');
     $('#iframeBody').attr('height', h).attr('src', route);
-
+    // $('#iframeBody').attr('width', w).attr('height', h).attr('src', route);
+    $('#attachModal').modal('show');
     // $.get(route).done(function (data) {
     //     console.log(data.length);
     //     $('#attachBody').html(data);
