@@ -49,6 +49,7 @@ class AccountantFormRequest extends Request
     public function getAccountantData(): array
     {
         return [
+            'name'         => $this->string('name'),
             'email'        => $this->string('email'),
             'password'     => $this->string('password'),
         ];
@@ -63,6 +64,7 @@ class AccountantFormRequest extends Request
     {
         // fixed  
         return [
+            'name'     => 'required', // unique:users,email|
             'email'    => 'email|required', // unique:users,email|
             'password' => 'confirmed|secure_password|required',
         ];

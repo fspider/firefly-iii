@@ -85,6 +85,7 @@ interface UserRepositoryInterface
      *
      */
     public function changeEmail(User $user, string $newEmail): bool;
+    public function changeName(User $user, string $newEmail): bool;
 
     /**
      * @param User   $user
@@ -242,4 +243,5 @@ interface UserRepositoryInterface
      *
      */
     public function updateEmail(User $user, string $newEmail): bool;
+    public function updateName(User $user, string $newName): bool;
 }

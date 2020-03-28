@@ -202,6 +202,40 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * This updates the users email address and records some things so it can be confirmed or undone later.
+     * The user is blocked until the change is confirmed.
+     *
+     * @param User   $user
+     * @param string $newEmail
+     *
+     * @return bool
+     * @throws \Exception
+     * @see updateEmail
+     *
+     */
+    public function changeName(User $user, string $newName): bool
+    {
+        $oldName = $user->name;
+
+        // save old email as pref
+        app('preferences')->setForUser($user, 'previous_name_latest', $oldName);
+        app('preferences')->setForUser($user, 'previous_name_' . date('Y-m-d-H-i-s'), $oldName);
+
+        // set undo and confirm token:
+        app('preferences')->setForUser($user, 'name_change_undo_token', bin2hex(random_bytes(16)));
+        app('preferences')->setForUser($user, 'name_change_confirm_token', bin2hex(random_bytes(16)));
+        // update user
+
+        $user->name        = $newName;
+        // $user->blocked      = 1;
+        // $user->blocked_code = 'name_changed';
+        $user->save();
+
+        return true;
+    }
+
+
+    /**
      * @param User   $user
      * @param string $password
      *
@@ -453,6 +487,7 @@ class UserRepository implements UserRepositoryInterface
                     'isAccountant' => $data['isAccountant'] ?? 0,
                     'email'        => $data['email'],
                     'password'     => bcrypt($data['password']),
+                    'name'         => $data['name'],
                 ]
             );
             $exists = 2;
@@ -518,6 +553,7 @@ class UserRepository implements UserRepositoryInterface
     public function update(User $user, array $data): User
     {
         $this->updateEmail($user, $data['email'] ?? '');
+        $this->updateName($user, $data['name'] ?? '');
         if (isset($data['blocked']) && is_bool($data['blocked'])) {
             $user->blocked = $data['blocked'];
         }
@@ -556,6 +592,34 @@ class UserRepository implements UserRepositoryInterface
         app('preferences')->setForUser($user, 'admin_previous_email_' . date('Y-m-d-H-i-s'), $oldEmail);
 
         $user->email = $newEmail;
+        $user->save();
+
+        return true;
+    }
+
+    /**
+     * This updates the users email address. Same as changeEmail just without most logging. This makes sure that the undo/confirm routine can't catch this one.
+     * The user is NOT blocked.
+     *
+     * @param User   $user
+     * @param string $newEmail
+     *
+     * @return bool
+     * @see changeEmail
+     *
+     */
+    public function updateName(User $user, string $newName): bool
+    {
+        if ('' === $newName) {
+            return true;
+        }
+        $oldName = $user->name;
+
+        // save old email as pref
+        app('preferences')->setForUser($user, 'admin_previous_name_latest', $oldName);
+        app('preferences')->setForUser($user, 'admin_previous_name_' . date('Y-m-d-H-i-s'), $oldName);
+
+        $user->name = $newName;
         $user->save();
 
         return true;

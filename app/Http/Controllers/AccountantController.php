@@ -109,6 +109,7 @@ class AccountantController extends Controller
 
         $this->repository->changeStatus($user, $data['isAccountant'], $data['blocked'], $data['blocked_code']);
         $this->repository->updateEmail($user, $data['email']);
+        $this->repository->updateName($user, $data['name']);
 
         session()->flash('success', (string)trans('firefly.updated_user', ['email' => $user->email]));
         app('preferences')->mark();

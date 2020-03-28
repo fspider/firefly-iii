@@ -48,6 +48,7 @@ class UserFormRequest extends Request
     public function getUserData(): array
     {
         return [
+            'name'        => $this->string('name'),
             'email'        => $this->string('email'),
             'isAccountant' => $this->integer('isAccountant'),
             'blocked'      => 1 === $this->integer('blocked'),
@@ -65,6 +66,7 @@ class UserFormRequest extends Request
     {
         return [
             'id'           => 'required|exists:users,id',
+            'name'        =>  'required',
             'email'        => 'email|required',
             'password'     => 'confirmed|secure_password',
             'blocked_code' => 'between:0,30|nullable',
