@@ -151,6 +151,7 @@ class GroupCollector implements GroupCollectorInterface
 
             # users
             'users.email as email',
+            'users.name as name',
         ];
     }
 

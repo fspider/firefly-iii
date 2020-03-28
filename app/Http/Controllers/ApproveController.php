@@ -104,7 +104,7 @@ class ApproveController extends Controller
         $startPeriod  = null === $firstJournal ? new Carbon : $firstJournal->date;
         $endPeriod    = clone $end;
         $periods      = $this->getTransactionPeriodOverview($objectType, $startPeriod, $endPeriod);
-
+ 
         /** @var GroupCollectorInterface $collector */
         $collector = app(GroupCollectorInterface::class);
 

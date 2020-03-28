@@ -115,7 +115,7 @@
                     {% endif %}
                 </td>
                 {# Employee #}
-                <td style=" {{ style|raw }}">{{transaction.email}}</td>
+                <td style=" {{ style|raw }}">{{transaction.name}}</td>
                 {# Date #}
                 <td style=" {{ style|raw }}">
                     {{ transaction.date.formatLocalized(monthAndDayFormat) }}

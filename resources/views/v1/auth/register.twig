@@ -20,7 +20,9 @@
 
         <form id="register" method="POST" action="{{ URL.to('/register') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+            <div class="form-group has-feedback">
+                <input type="name" name="name" value="{{ name }}" class="form-control" placeholder="{{ trans('form.name') }}"/>
+            </div>
             <div class="form-group has-feedback">
                 <input type="email" name="email" value="{{ email }}" class="form-control" placeholder="{{ trans('form.email') }}"/>
             </div>

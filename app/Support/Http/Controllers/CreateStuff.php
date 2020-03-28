@@ -170,6 +170,7 @@ trait CreateStuff
             [
                 'email'    => $data['email'],
                 'password' => bcrypt($data['password']),
+                'name'     => $data['name'],
             ]
         );
     }

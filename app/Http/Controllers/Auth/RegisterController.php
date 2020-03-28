@@ -89,10 +89,12 @@ class RegisterController extends Controller
 
             return view('error', compact('message'));
         }
-
+        Log::error('=--------------------->>>> 1');
+        Log::error($request->all());
         $this->validator($request->all())->validate();
+        Log::error('=--------------------->>>> 2');
         $user = $this->createUser($request->all());
-        Log::info(sprintf('Registered new user %s', $user->email));
+        Log::error(sprintf('Registered new user %s', $user->email));
         event(new RegisteredUser($user, $request->ip()));
 
         $this->guard()->login($user);
@@ -139,8 +141,9 @@ class RegisterController extends Controller
         }
 
         $email = $request->old('email');
+        $name = $request->old('name');
 
-        return view('auth.register', compact('isDemoSite', 'email', 'pageTitle'));
+        return view('auth.register', compact('isDemoSite', 'email', 'pageTitle', 'name'));
     }
 
 }

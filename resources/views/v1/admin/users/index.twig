@@ -15,6 +15,7 @@
                         <thead>
                         <tr>
                             <th data-defaultsign="_19" class="hidden-xs" colspan="2">&nbsp;</th>
+                            <th data-defaultsign="az">{{ trans('list.name') }}</th>
                             <th data-defaultsign="az">{{ trans('list.email') }}</th>
                             <th data-defaultsign="month" class="hidden-xs">{{ trans('list.registered_at') }}</th>
                             <th data-defaultsign="month" class="hidden-xs">{{ trans('list.updated_at') }}</th>
@@ -35,6 +36,9 @@
                                     </div>
                                 </td>
                                 <td class="hidden-xs" data-value="{{ user.id }}">#{{ user.id }}</td>
+                                <td class="hidden-xs" data-value="{{ user.name }}">
+                                    {{ user.name }}
+                                </td>
                                 <td data-value="{{ user.email }}">
                                     <a href="{{ route('admin.users.show',user.id) }}">{{ user.email }}</a></td>
                                 <td class="hidden-xs" data-value="{{ user.created_at.format('Y-m-d H-i-s') }}">

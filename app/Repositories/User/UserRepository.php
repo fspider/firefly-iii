@@ -90,8 +90,21 @@ class UserRepository implements UserRepositoryInterface
      */
     public function expenses(int $userid): Collection
     {
-        if($userid == 0) return collect();
-        return User::find($userid)->accounts()->where('account_type_id', '!=', 4)->get();
+        if(User::find($userid)!= null) {
+            return User::find($userid)->accounts()->where('account_type_id', '!=', 4)->get();
+        } else {
+            $expenses = new Collection();
+            $users = User::all();
+            $results = $users->map(function($user) {
+                return $user->accounts()->where('account_type_id', '!=', 4)->get();
+            });
+            foreach($results as $result) {
+                $expenses = $expenses->merge($result);
+            }
+            // Log::error($categories);
+            return $expenses;
+        }
+
         // return User::find($userid)->accounts()->where('account_type_id', 4)->get('account.*');
     }
 
@@ -104,7 +117,16 @@ class UserRepository implements UserRepositoryInterface
         if(User::find($userid) != null) {
             return User::find($userid)->categories()->get('categories.*');
         } else {
-            return collect();
+            $categories = new Collection();
+            $users = User::all();
+            $results = $users->map(function($user) {
+                return $user->categories()->get('categories.*');
+            });
+            foreach($results as $result) {
+                $categories = $categories->merge($result);
+            }
+            // Log::error($categories);
+            return $categories;
         }
     }
     /**

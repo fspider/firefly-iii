@@ -23,11 +23,11 @@
 							<select name="approve_user" class="form-control" id="inputApproveUser">
 								<option label="All" value={{0}} >All</option>
 								{% for aprUser in approveUsers %}
-									<option label="{{aprUser.email}}" value={{aprUser.id}}
+									<option label="{{aprUser.name}}" value={{aprUser.id}}
 									{% if aprUser.id == userid %}
 										selected
 									{% endif %}
-									>{{ aprUser.email}}</option>
+									>{{ aprUser.name}}</option>
 								{% endfor %}
 							</select>
 						</div>
@@ -39,7 +39,7 @@
 							<select name="category" class="form-control" id="inputCategory">
 								<option label="All" value={{0}}>All</option>
 								{% for category in categories %}
-									<option label="{{category.name}}" value={{category.id}}
+									<option label="{{category.name}}" value={{category.id}} data-userid={{category.user_id}}
 									{% if category.id == categoryid %}
 										selected
 									{% endif %}
@@ -71,7 +71,7 @@
 							<select name="expense" class="form-control" id="inputExpense">
 								<option label="All" value={{0}}>All</option>
 								{% for expense in expenses %}
-									<option label="{{expense.name}}" value={{expense.id}}
+									<option label="{{expense.name}}" value={{expense.id}}  data-userid={{expense.user_id}}
 									{% if expense.id == expenseid %}
 										selected
 									{% endif %}
