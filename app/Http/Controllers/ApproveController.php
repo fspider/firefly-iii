@@ -205,7 +205,9 @@ class ApproveController extends Controller
         // return response()->json(
         //     $end
         // );
-
+        if ($userid != 0 && !$approveUsers->contains('id', $userid)) {
+            return redirect(route('home'));
+        }
         
         [$start, $end] = $end < $start ? [$end, $start] : [$start, $end];
         $path     = route('approve.approves', [$userid, $categoryid, $statuid, $expenseid, $start->format('Y-m-d'), $end->format('Y-m-d')]);
