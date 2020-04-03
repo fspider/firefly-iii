@@ -1062,6 +1062,7 @@ return [
     'approve_user'                              => 'Employee',
     'status'                                    => 'Status',
     'pay_with'                                  => 'Pay With',
+    'expense_edit'                              => 'Edit expenses',
     
     // Accountants
     'accountants'                               => 'Accountants',

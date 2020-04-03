@@ -105,14 +105,14 @@
                     {% if transaction.reconciled %}
                         <i class="fa fa-check"></i>
                     {% endif %}
-                    {% if group.count == 1 %}
-                        {# <a href="{{ route('transactions.show', [group.id]) }}" title="{{ transaction.description }}"> #}
-                        {% endif %}
-                        {# {{ transaction.description }} #}
-                        {{ transaction.transaction_journal_id }}
-                        {% if group.count == 1 %}
-                        {# </a> #}
-                    {% endif %}
+                    {# {% if group.count == 1 %}
+                    <a href="{{ route('transactions.show', [group.id]) }}" title="{{ transaction.description }}">
+                    {% endif %} #}
+                    {# {{ transaction.description }} #}
+                    {{ transaction.transaction_journal_id }}
+                    {# {% if group.count == 1 %}
+                    </a>
+                    {% endif %} #}
                 </td>
                 {# Employee #}
                 <td style=" {{ style|raw }}">{{transaction.name}}</td>
@@ -146,11 +146,9 @@
                     {% if transaction.attachments|length > 0 %}
                         <i class="fa fa-paperclip"></i>
                         {# <a href={{ route('attachments.review', transaction.attachment_id) }} target="_blank">{{'view_attachment'|_}}</a> #}
-<a class="attach" style="cursor: pointer;" data-route="{{ route('attachments.review', transaction.attachment_id) }}">
-	{{'view_attachment'|_}}
-</a>
-
-
+                        <a class="attach" style="cursor: pointer;" data-route="{{ route('attachments.review', transaction.attachment_id) }}">
+                            {{'view_attachment'|_}}
+                        </a>
                         {# <a href="#" id="attach" data-route="{{ route('attachments.review', transaction.attachment_id) }}" data-target="#attachModal" >
                         {{'view_attachment'|_}}</a> #}
 {# <a href="javascript:article open('{{ route('attachments.review', transaction.attachment_id) }}')">{{'view_attachment'|_}}</a> #}
@@ -195,10 +193,15 @@
                         </div>
                     </td>
                 {% endif %}
+                <td style=" {{ style|raw }};">
+                    <a class="editnote" style="cursor: pointer;" data-route="{{ route('approve.edit', [transaction.transaction_journal_id, transaction.user_id]) }}">
+                    {# <a class="editnote" style="cursor: pointer;" data-route=""> #}
+                        <i class="fa fa-fw fa-pencil"></i>
+                    </a>
+                </td>
+
+
                 {# {% if group.count != 1 %}
-                    <td style=" {{ style|raw }};">
-                        &nbsp;
-                    </td>
                 {% endif %} #}
                 {# <td style="{{ style|raw }}">
                     <div class="pull-right">
@@ -281,3 +284,28 @@
 	</div>
 </div>
 
+<div class="modal fade" tabindex="-1" role="dialog" id="editDialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			{# <div class="modal-header">
+                <h4 class="modal-title" id="attachTitle">&nbsp;</h4>
+            </div> #}
+			<div class="modal-body" id="editBody">
+            <form>
+            </form>
+            </div>
+            {# <iframe id="iframeBody" width="100%"> </iframe> #}
+
+			{# <div class="modal-footer">
+                <small class="pull-left">
+                    {{ 'need_more_help'|_ }}
+                </small>
+                <br/>
+                <small class="pull-left">
+                    {{ trans('firefly.reenable_intro_text')|raw }}
+                </small>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|_ }}</button>
+            </div> #}
+		</div>
+	</div>
+</div>

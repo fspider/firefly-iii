@@ -1,0 +1,57 @@
+{% block content %}
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title">{{ 'expense_edit'|_ }}</h3>
+    </div>
+
+    <div class="box-body">
+        <form class="form-horizontal nodisablebutton" id="edit-note-form" action="#" method="post">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+            {# {% set transaction = group.transactions[0] %}
+            <p>{{group.transactions|first.category_id}} 123123</p> #}
+            
+            {{ ExpandedForm.date('tranDate',transaction.date,{ 'label' : 'date'|_ }) }}
+            <div class="form-group">
+                <label for="editCategory" class="col-sm-4 control-label">{{ 'category'|_ }}</label>
+                <div class="col-sm-8">
+                    <select name="editCategory" class="form-control" id="editCategory">
+                        <option label="" value={{0}} data-userid={{category.user_id}} 
+                            {% if 0 == transaction.category_id %} selected {% endif %}></option>
+                        {% for category in categories %}
+                        <option label="{{category.name}}" value={{category.id}} data-userid={{category.user_id}} {% if category.id == transaction.category_id %} selected {% endif %}>{{ category.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {{ ExpandedForm.amountNoCurrency('tranAmount',transaction.amount,{ 'label' : 'amount'|_ }) }}
+            <div class="form-group">
+                <label for="editCurrency" class="col-sm-4 control-label">{{ 'currency'|_ }}</label>
+                <div class="col-sm-8">
+                    <select name="editCurrency" class="form-control" id="editCurrency">
+                        <option label="" value={{0}} {% if 0 == transaction.currency_id %} selected {% endif %}></option>
+                        {% for currency in currencies %}
+                            {% if currency.enabled == 1 %}
+                            <option label="{{currency.name}}" value={{currency.id}} {% if currency.id == transaction.currency_id %} selected {% endif %}>{{ currency.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editExpense" class="col-sm-4 control-label">{{ trans('list.paid_with') }}</label>
+                <div class="col-sm-8">
+                    <select name="editExpense" class="form-control" id="editExpense">
+                        <option label="" value={{0}} {% if 0 == transaction.source_account_id %} selected {% endif %}></option>
+                        {% for expense in expenses %}
+                        <option label="{{expense.name}}" value={{expense.id}} {% if expense.id == transaction.source_account_id %} selected {% endif %}>{{ currency.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {{ ExpandedForm.text('filename',transaction.filename,{ 'label' : trans('list.attachment') }) }}
+
+        </form>
+    </div>
+</div>
+{% endblock %}

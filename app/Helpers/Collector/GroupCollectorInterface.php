@@ -420,4 +420,6 @@ interface GroupCollectorInterface
      */
     public function withoutCategory(): GroupCollectorInterface;
 
+    public function getTransaction(int $tranid, int $userid): GroupCollectorInterface;
+    public function getCollection(): collection;
 }

@@ -1406,4 +1406,46 @@ class GroupCollector implements GroupCollectorInterface
         return $this;
     }    
 
+    public function getTransaction(int $tranid, int $userid): GroupCollectorInterface
+    {
+        $this->query = TransactionJournal::
+              where('transaction_journals.user_id', $userid)
+            ->where('transaction_journals.id', $tranid)
+            ->leftJoin('transaction_groups', 'transaction_journals.transaction_group_id', 'transaction_groups.id')
+            // join source transaction.
+            ->leftJoin(
+                'transactions as source', function (JoinClause $join) {
+                $join->on('source.transaction_journal_id', '=', 'transaction_journals.id')
+                     ->where('source.amount', '<', 0);
+            }
+            )
+            // join destination transaction
+            ->leftJoin(
+                'transactions as destination', function (JoinClause $join) {
+                $join->on('destination.transaction_journal_id', '=', 'transaction_journals.id')
+                     ->where('destination.amount', '>', 0);
+            }
+            )
+            ->leftJoin(
+                'transaction_status', 'transaction_status.id', 'transaction_journals.status'
+            )
+            // left join transaction type.
+            // ->whereIn('transaction_journals.user_id', $users->pluck('id')->toArray())
+            ->leftJoin('users', 'users.id', 'transaction_journals.user_id')
+            ->leftJoin('transaction_types', 'transaction_types.id', '=', 'transaction_journals.transaction_type_id')
+            ->leftJoin('transaction_currencies as currency', 'currency.id', '=', 'source.transaction_currency_id')
+            ->leftJoin('transaction_currencies as foreign_currency', 'foreign_currency.id', '=', 'source.foreign_currency_id')
+            ->whereNull('transaction_groups.deleted_at')
+            ->whereNull('transaction_journals.deleted_at')
+            ->whereNull('source.deleted_at')
+            ->whereNull('destination.deleted_at');
+        return $this;
+    }
+
+    public function getCollection(): collection {
+        $result = $this->query->get($this->fields);
+        $collection  = $this->parseArray($result);
+        return $collection;
+    }
+
 }

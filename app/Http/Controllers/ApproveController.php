@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 use FireflyIII\User;
 use Carbon\Carbon;
 use Log;
-
+use DB;
 /**
  * Class ApproveController.
  *
@@ -237,7 +237,7 @@ class ApproveController extends Controller
         if($expenseid != 0)
             $collector->setAccountId($expenseid);
         if($statuid !=0)
-        $collector->setStatusId($statuid);
+            $collector->setStatusId($statuid);
 
         $groups = $collector->getPaginatedGroups();
         $groups->setPath($path);
@@ -287,24 +287,54 @@ class ApproveController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(User $user)
+    public function edit(int $tranid, int $userid)
     {
-        // put previous url in session if not redirect from store (not "return_to_edit").
-        if (true !== session('accountants.edit.fromUpdate')) {
-            $this->rememberPreviousUri('accountants.edit.uri');
+        $user = auth()->user();
+        $par_userid = $user->id;
+        $approveUsers = $this->repository->approveUsers($par_userid);
+        $categories = $this->repository->categories($userid);
+        $status = $this->repository->transactionStatus();
+        $expenses = $this->repository->expenses($userid);
+        $currencies = $this->repository->currencies($userid);
+
+        $collector = app(GroupCollectorInterface::class);
+        $groups = $collector->getTransaction($tranid, $userid)
+                  ->withBudgetInformation()
+                  ->withCategoryInformation()
+                  ->withAccountInformation()
+                  ->withAttachmentInformation()
+                  ->getCollection();
+        // Log::error($groups);
+        $group = $groups->first();
+
+        // Log::error($group);
+        $transactions = $group["transactions"];
+        foreach($transactions as $tran) {
+            $transaction = $tran;
         }
-        session()->forget('accountants.edit.fromUpdate');
+        Log::error($transaction);
+        $tranDate = new Carbon;
 
-        $subTitle     = (string)trans('firefly.edit_accountant', ['email' => $user->email]);
-        $subTitleIcon = 'fa-user-o';
-        $codes        = [
-            ''              => (string)trans('firefly.no_block_code'),
-            'bounced'       => (string)trans('firefly.block_code_bounced'),
-            'expired'       => (string)trans('firefly.block_code_expired'),
-            'email_changed' => (string)trans('firefly.block_code_email_changed'),
-        ];
+        // if (true !== session('accountants.edit.fromUpdate')) {
+        //     $this->rememberPreviousUri('accountants.edit.uri');
+        // }
+        // session()->forget('accountants.edit.fromUpdate');
 
-        return view('accountants.edit', compact('user', 'subTitle', 'subTitleIcon', 'codes'));
+        // $subTitle     = (string)trans('firefly.edit_accountant', ['email' => $user->email]);
+        // $subTitleIcon = 'fa-user-o';
+        // $codes        = [
+        //     ''              => (string)trans('firefly.no_block_code'),
+        //     'bounced'       => (string)trans('firefly.block_code_bounced'),
+        //     'expired'       => (string)trans('firefly.block_code_expired'),
+        //     'email_changed' => (string)trans('firefly.block_code_email_changed'),
+        // ];
+
+        return response()->json(
+            view(
+                'approve.edit',
+                compact('categories', 'tranDate', 'currencies', 'expenses', 'transaction')
+            )->render()
+        );
     }
 
 

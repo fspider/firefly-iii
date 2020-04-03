@@ -110,14 +110,18 @@ function uiChanged(event) {
     // console.log('[SPIDER] UI Changed');
     // saveCookies();
     var target = event.target;
-    var selectedVal = target.options[target.selectedIndex].value;
-    if (target.name == "category" && selectedVal != 0) {
-        var userid = $(target).find(':selected').data('userid');
-        updateTable(userid);
-    } else if (target.name == "expense" && selectedVal != 0) { 
-        var userid = $(target).find(':selected').data('userid');
-        updateTable(userid);
-    } else {
+    if (target.type == "select-one") {
+        var selectedVal = target.options[target.selectedIndex].value;
+        if (target.name == "category" && selectedVal != 0) {
+            var userid = $(target).find(':selected').data('userid');
+            updateTable(userid);
+        } else if (target.name == "expense" && selectedVal != 0) {
+            var userid = $(target).find(':selected').data('userid');
+            updateTable(userid);
+        } else {
+            updateTable(0);
+        }
+    } else { 
         updateTable(0);
     }
     console.log('redirecting...');

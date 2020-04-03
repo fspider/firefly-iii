@@ -27,6 +27,7 @@ use FireflyIII\Models\Role;
 use FireflyIII\Models\AccountantUser;
 use FireflyIII\Models\TransactionStatu;
 use FireflyIII\Models\TransactionJournal;
+use FireflyIII\Models\TransactionCurrency;
 use FireflyIII\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
@@ -108,7 +109,11 @@ class UserRepository implements UserRepositoryInterface
         // return User::find($userid)->accounts()->where('account_type_id', 4)->get('account.*');
     }
 
-
+    public function currencies(int $userid):Collection
+    {
+        $currencies = TransactionCurrency::all();
+        return $currencies;
+    }
     /**
      * @return Collection
      */

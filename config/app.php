@@ -148,7 +148,6 @@ return [
         'RuleForm'      => \FireflyIII\Support\Facades\RuleForm::class,
         'Google2FA'     => PragmaRX\Google2FALaravel\Facade::class,
         'Twig'          => TwigBridge\Facade\Twig::class,
-
     ],
 
 ];

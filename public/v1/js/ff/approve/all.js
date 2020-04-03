@@ -70,6 +70,7 @@ function readCookie(name) {
 $(function () {
     "use strict";
     $('.attach').click(showAttach);
+    $('.editnote').click(editNote);
 });
 
 function showAttach(e) {
@@ -103,7 +104,32 @@ function showAttach(e) {
     // });
     return false;
 }
-
+function editNote(e) { 
+    "use strict";
+    var target = $(e.target.parentNode);
+    console.log('target ---->');
+    console.log(target);
+    var route = target.data('route');
+    console.log(route);
+    var t, l, w, h;
+    // w = screen.width - 200; h = screen.height - 200;
+    w = 600; h = 600;
+    t = 0;
+    l = (screen.width - w) / 2;
+    $('.modal-dialog').attr('style', 'width:' + w + 'px; important');
+    $('#attachBody').attr('height', h);
+    $('#attachBody').attr('width', w);
+    // $('#iframeBody').attr('height', h).attr('src', route);
+    // $('#iframeBody').attr('width', w).attr('height', h).attr('src', route);
+    $('#editDialog').modal('show');
+    
+    $.get(route).done(function (data) {
+        console.log(data.length);
+        $('#editBody').html(data);
+    //     // $('#iframeBody').attr('src', data);
+    }).fail(function () {
+    });
+}
 // function enableGuidance(route) {
 //     $.post(route, { _token: token }).done(function (data) {
 //         alert(data.message);
